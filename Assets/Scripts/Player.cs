@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// プレイヤーの操作、管理をするコンポーネント
+/// </summary>
 public class Player : MonoBehaviour
 {
     [Tooltip("最大HP")]
     [SerializeField] float _maxHp;
+
+    //基礎ステータス
     [Tooltip("基礎移動速度")]
     [SerializeField] float _speed;
     [Tooltip("基礎攻撃力")]
@@ -21,6 +26,7 @@ public class Player : MonoBehaviour
 
     float _hp;
 
+    //ステータス補正値
     float _exp;
     float _atkCorrection;
     float _expFactCorrection;
@@ -38,5 +44,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void A(int a)
+    {
+        Debug.Log((SkillDef) a);
     }
 }
