@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// プレイヤーの操作、管理をするコンポーネント
@@ -24,7 +25,10 @@ public class Player : MonoBehaviour
     [Tooltip("基礎クールタイム倍率")]
     [SerializeField] float _ctFact;
 
+    /// <summary>HP</summary>
     float _hp;
+    /// <summary>スキルリスト</summary>
+    List<ISkill> _skills = new List<ISkill> ();
 
     //ステータス補正値
     float _exp;
@@ -46,8 +50,17 @@ public class Player : MonoBehaviour
         
     }
 
-    public void A(int a)
+    public void AddSkill(int id)
     {
-        Debug.Log((SkillDef) a);
+        int hs = 0;
+        _skills.ForEach(s => hs += s.ID == (SkillDef)id ? 1 : 0);
+        if (hs != 0)
+        {
+            switch (id)
+            {
+                default:
+                    break;
+            }
+        }
     }
 }
