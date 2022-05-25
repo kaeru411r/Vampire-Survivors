@@ -52,15 +52,18 @@ public class Player : MonoBehaviour
 
     public void AddSkill(int id)
     {
-        int hs = 0;
-        _skills.ForEach(s => hs += s.ID == (SkillDef)id ? 1 : 0);
-        if (hs != 0)
+        var hs = _skills.Where(s => s.ID == (SkillDef)id);
+        if (hs.Count() != 0)
         {
             switch (id)
             {
                 default:
                     break;
             }
+        }
+        else
+        {
+            hs.Single().LevelUp();
         }
     }
 }

@@ -17,4 +17,5 @@ interface ISkill
 public enum SkillDef
 {
     Gun = 0,
+    AddHP = 1,
 }
