@@ -6,12 +6,12 @@ public class AddHp : ISkill
 {
     public SkillDef ID => SkillDef.AddHP;
 
-    const string _csvFileName = "AddHPTable";
+    float _value = 10.0f;
+
 
     public void LevelUp()
     {
-        //string filePath = Application.streamingAssetsPath + _csvFileName;
-        
+        //GameManager.Player
     }
 
     public void SetUp()
@@ -23,4 +23,5 @@ public class AddHp : ISkill
     {
         throw new System.NotImplementedException();
     }
+
 }

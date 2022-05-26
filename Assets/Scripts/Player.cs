@@ -31,12 +31,21 @@ public class Player : MonoBehaviour
     List<ISkill> _skills = new List<ISkill> ();
 
     //ステータス補正値
+    float _maxHPPlus;
     float _exp;
     float _atkCorrection;
     float _expFactCorrection;
     float _ctFactCorrection;
     float _defCorrection;
     float _luckCorrection;
+
+    public float MaxHPPlus { get => _maxHPPlus; set => _maxHPPlus = value; }
+    public float Exp { get => _exp; set => _exp = value; }
+    public float AtkCorrection { get => _atkCorrection; set => _atkCorrection = value; }
+    public float ExpFactCorrection { get => _expFactCorrection; set => _expFactCorrection = value; }
+    public float CtFactCorrection { get => _ctFactCorrection; set => _ctFactCorrection = value; }
+    public float DefCorrection { get => _defCorrection; set => _defCorrection = value; }
+    public float LuckCorrection { get => _luckCorrection; set => _luckCorrection = value; }
 
     // Start is called before the first frame update
     void Start()
