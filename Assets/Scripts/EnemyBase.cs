@@ -23,25 +23,36 @@ public class EnemyBase : MonoBehaviour
         Move();
     }
 
+    /// <summary>
+    /// “G‚ª“®‚­
+    /// </summary>
     private void Move()
     {
         Vector3 pPos = GameManager.Player.transform.position;
         Vector3 dir = (pPos - transform.position).normalized;
-        _rb.velocity = dir;
+        _rb.velocity = dir * _moveSpeed;
     }
 
+    /// <summary>
+    /// “G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
+    /// </summary>
+    /// <param name="damage"></param>
     public void Damage(float damage)
     {
         _hp -= damage;
+        GameManager.Instance.AddEnemyDamageLog($"{name}‚É{damage}ƒ_ƒ[ƒW");
         if(_hp <= 0)
         {
-
+            Death();
         }
     }
 
+    /// <summary>
+    /// “G‚ª€‚Ê
+    /// </summary>
     public void Death()
     {
-
+        GameManager.Instance.AddEnemyDeathLog($"{name}‚ª“|‚ê‚½");
     }
 
 }

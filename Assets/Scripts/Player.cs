@@ -8,24 +8,26 @@ using System.Linq;
 /// </summary>
 public class Player : MonoBehaviour
 {
-    [Tooltip("Å‘åHP")]
-    [SerializeField] float _maxHp;
 
     //Šî‘bƒXƒe[ƒ^ƒX
+    [Tooltip("Šî‘bÅ‘åHP")]
+    [SerializeField] float _baseMaxHp;
     [Tooltip("Šî‘bˆÚ“®‘¬“x")]
-    [SerializeField] float _speed;
+    [SerializeField] float _baseSpeed;
     [Tooltip("Šî‘bUŒ‚—Í")]
-    [SerializeField] float _atk;
+    [SerializeField] float _baseAtk;
     [Tooltip("Šî‘b–hŒä—Í")]
-    [SerializeField] float _def;
+    [SerializeField] float _baseDef;
     [Tooltip("Šî‘b‰^")]
-    [SerializeField] float _luck;
+    [SerializeField] float _baseLuck;
     [Tooltip("Šî‘bŒoŒ±’l”{—¦")]
-    [SerializeField] float _expFact;
+    [SerializeField] float _baseExpFact;
     [Tooltip("Šî‘bƒN[ƒ‹ƒ^ƒCƒ€”{—¦")]
-    [SerializeField] float _ctFact;
+    [SerializeField] float _baseCtFact;
 
-    /// <summary>HP</summary>
+    /// <summary>Å‘åHP</summary>
+    float _maxHp;
+    /// <summary>Œ»İ‚Ìc‚èHP</summary>
     float _hp;
     /// <summary>ƒXƒLƒ‹ƒŠƒXƒg</summary>
     List<ISkill> _skills = new List<ISkill> ();
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        _skills.ForEach(s => s.Update());
     }
 
     public void AddSkill(int id)

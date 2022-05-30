@@ -6,22 +6,35 @@ public class AddHp : ISkill
 {
     public SkillDef ID => SkillDef.AddHP;
 
-    float _value = 10.0f;
+    int _level;
+
+    float[] _addTable = new float[]
+    {
+        10,
+        20,
+        40,
+        80,
+        160,
+        320,
+        640,
+        1280
+    };
 
 
     public void LevelUp()
     {
-        //GameManager.Player
+        GameManager.Player.MaxHPPlus += _addTable[_level];
+        _level++;
     }
 
     public void SetUp()
     {
-        throw new System.NotImplementedException();
+        GameManager.Player.MaxHPPlus += _addTable[0];
+        _level = 1;
     }
 
     public void Update()
     {
-        throw new System.NotImplementedException();
     }
 
 }
