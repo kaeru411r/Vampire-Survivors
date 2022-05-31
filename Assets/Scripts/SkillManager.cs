@@ -44,6 +44,8 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
         return null;
     }
 
+
+    /// <summary>現在取得しているスキル</summary>
     public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
 
 

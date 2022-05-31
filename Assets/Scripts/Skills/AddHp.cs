@@ -6,6 +6,7 @@ public class AddHp : ISkill
 {
     public SkillDef ID => SkillDef.AddHP;
 
+
     int _level;
 
     float[] _addTable = new float[]
