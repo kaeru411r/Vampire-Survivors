@@ -19,26 +19,7 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 return null;
         }
     }
-    public ISkill[] Skills
-    {
-        get
-        {
-            SkillsNullCheck();
-            return _skills.ToArray();
-        }
-    }
-
-    void SkillsNullCheck()
-    {
-        for(int i = 0; i < _skills.Count; i++)
-        {
-            if(_skills[i] == null)
-            {
-                _skills.RemoveAt(i);
-                i--;
-            }
-        }
-    }
+    public ISkill[] Skills { get { return _skills.ToArray(); } }
 
 
     List<ISkill> _skills = new List<ISkill>();
