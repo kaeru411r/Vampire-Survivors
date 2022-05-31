@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface ISkill
+public interface ISkill
 {
     SkillDef ID { get; }
 

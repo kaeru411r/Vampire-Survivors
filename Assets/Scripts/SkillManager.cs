@@ -9,20 +9,44 @@ using System.Linq;
 /// </summary>
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
+    static public ISkill GetSkill(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                return new AddHp();
+            default:
+                return null;
+        }
+    }
+
+
     List<ISkill> _skills = new List<ISkill>();
 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        _skills.ForEach(s => s.Update());
+    }
 
 
-
+    /// <summary>
+    /// ƒXƒLƒ‹‚Ìæ“¾A‹­‰»
+    /// </summary>
+    /// <param name="id"></param>
     public void AddSkill(int id)
     {
         var hs = _skills.Where(s => s.ID == (SkillDef)id);
         if (hs.Count() != 0)
         {
-            switch (id)
+            ISkill s = GetSkill(id);
+            if (s != null)
             {
-                default:
-                    break;
+                _skills.Add(s);
             }
         }
         else
@@ -30,4 +54,5 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
             hs.Single().LevelUp();
         }
     }
+
 }
