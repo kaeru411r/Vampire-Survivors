@@ -11,6 +11,8 @@ interface ISkill
     void Update();
 
     void LevelUp();
+
+    void Delete();
 }
 
 
