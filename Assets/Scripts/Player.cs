@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 /// <summary>
 /// プレイヤーの操作、管理をするコンポーネント
@@ -30,7 +29,7 @@ public class Player : SingletonMonoBehaviour<Player>
     /// <summary>現在の残りHP</summary>
     float _hp;
     /// <summary>スキルリスト</summary>
-    List<ISkill> _skills = new List<ISkill>();
+    [SerializeField] List<ISkill> _skills = new List<ISkill>();
 
     //ステータス補正値
     float _maxHPPlus;
@@ -52,7 +51,7 @@ public class Player : SingletonMonoBehaviour<Player>
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
         _hp = _maxHp;
     }
 
@@ -62,22 +61,6 @@ public class Player : SingletonMonoBehaviour<Player>
         _skills.ForEach(s => s.Update());
     }
 
-    public void AddSkill(int id)
-    {
-        var hs = _skills.Where(s => s.ID == (SkillDef)id);
-        if (hs.Count() != 0)
-        {
-            switch (id)
-            {
-                default:
-                    break;
-            }
-        }
-        else
-        {
-            hs.Single().LevelUp();
-        }
-    }
 
     public void Damage(float damage)
     {

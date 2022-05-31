@@ -23,13 +23,13 @@ public class AddHp : ISkill
 
     public void LevelUp()
     {
-        GameManager.Player.MaxHPPlus += _addTable[_level] - _addTable[_level - 1];
+        Player.Instance.MaxHPPlus += _addTable[_level] - _addTable[_level - 1];
         _level++;
     }
 
     public void SetUp()
     {
-        GameManager.Player.MaxHPPlus += _addTable[0];
+        Player.Instance.MaxHPPlus += _addTable[0];
         _level = 1;
     }
 
@@ -39,7 +39,7 @@ public class AddHp : ISkill
 
     public void Delete()
     {
-        GameManager.Player.MaxHPPlus -= _addTable[_level];
+        Player.Instance.MaxHPPlus -= _addTable[_level];
     }
 
 }
