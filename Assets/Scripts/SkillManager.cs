@@ -9,7 +9,7 @@ using System.Linq;
 /// </summary>
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
-    static public ISkill GetSkill(int id)
+    public ISkill GetSkill(int id)
     {
         switch (id)
         {
@@ -17,6 +17,26 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 return new AddHp();
             default:
                 return null;
+        }
+    }
+    public ISkill[] Skills
+    {
+        get
+        {
+            SkillsNullCheck();
+            return _skills.ToArray();
+        }
+    }
+
+    void SkillsNullCheck()
+    {
+        for(int i = 0; i < _skills.Count; i++)
+        {
+            if(_skills[i] == null)
+            {
+                _skills.RemoveAt(i);
+                i--;
+            }
         }
     }
 
@@ -54,5 +74,4 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
             hs.Single().LevelUp();
         }
     }
-
 }
