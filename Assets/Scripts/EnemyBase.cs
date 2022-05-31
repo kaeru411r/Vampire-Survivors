@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    /// “G‚ª“®‚­
+    /// æ•µãŒå‹•ã
     /// </summary>
     private void Move()
     {
@@ -35,13 +35,13 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    /// “G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
+    /// æ•µã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
     /// </summary>
     /// <param name="damage"></param>
     public void Damage(float damage)
     {
         _hp -= damage;
-        GameManager.Instance.AddEnemyDamageLog($"{name}‚É{damage}ƒ_ƒ[ƒW");
+        GameManager.Instance.AddEnemyDamageLog($"{name}ã«{damage}ãƒ€ãƒ¡ãƒ¼ã‚¸");
         if(_hp <= 0)
         {
             Death();
@@ -49,11 +49,11 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    /// “G‚ª€‚Ê
+    /// æ•µãŒæ­»ã¬
     /// </summary>
     public void Death()
     {
-        GameManager.Instance.AddEnemyDeathLog($"{name}‚ª“|‚ê‚½");
+        GameManager.Instance.AddEnemyDeathLog($"{name}ãŒå€’ã‚ŒãŸ");
     }
 
 
@@ -66,7 +66,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ÉUŒ‚‚·‚é
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«æ”»æ’ƒã™ã‚‹
     /// </summary>
     void Attack()
     {

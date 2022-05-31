@@ -1,38 +1,38 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Ì‘€ìAŠÇ—‚ğ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ“ä½œã€ç®¡ç†ã‚’ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 /// </summary>
 public class Player : SingletonMonoBehaviour<Player>
 {
 
-    //Šî‘bƒXƒe[ƒ^ƒX
-    [Tooltip("Šî‘bÅ‘åHP")]
+    //åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+    [Tooltip("åŸºç¤æœ€å¤§HP")]
     [SerializeField] float _baseMaxHp;
-    [Tooltip("Šî‘bˆÚ“®‘¬“x")]
+    [Tooltip("åŸºç¤ç§»å‹•é€Ÿåº¦")]
     [SerializeField] float _baseSpeed;
-    [Tooltip("Šî‘bUŒ‚—Í")]
+    [Tooltip("åŸºç¤æ”»æ’ƒåŠ›")]
     [SerializeField] float _baseAtk;
-    [Tooltip("Šî‘b–hŒä—Í")]
+    [Tooltip("åŸºç¤é˜²å¾¡åŠ›")]
     [SerializeField] float _baseDef;
-    [Tooltip("Šî‘b‰^")]
+    [Tooltip("åŸºç¤é‹")]
     [SerializeField] float _baseLuck;
-    [Tooltip("Šî‘bŒoŒ±’l”{—¦")]
+    [Tooltip("åŸºç¤çµŒé¨“å€¤å€ç‡")]
     [SerializeField] float _baseExpFact;
-    [Tooltip("Šî‘bƒN[ƒ‹ƒ^ƒCƒ€”{—¦")]
+    [Tooltip("åŸºç¤ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ å€ç‡")]
     [SerializeField] float _baseCtFact;
 
-    /// <summary>Å‘åHP</summary>
+    /// <summary>æœ€å¤§HP</summary>
     float _maxHp;
-    /// <summary>Œ»İ‚Ìc‚èHP</summary>
+    /// <summary>ç¾åœ¨ã®æ®‹ã‚ŠHP</summary>
     float _hp;
-    /// <summary>ƒXƒLƒ‹ƒŠƒXƒg</summary>
+    /// <summary>ã‚¹ã‚­ãƒ«ãƒªã‚¹ãƒˆ</summary>
     [SerializeField] List<int> _skillIDs = new List<int>();
 
-    //ƒXƒe[ƒ^ƒX•â³’l
+    //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è£œæ­£å€¤
     float _maxHPPlus;
     float _exp;
     float _atkCorrection;
@@ -66,7 +66,7 @@ public class Player : SingletonMonoBehaviour<Player>
     public void Damage(float damage)
     {
         _hp -= damage;
-        GameManager.Instance.AddPlayerDamageLog($"ƒvƒŒƒCƒ„[‚ª{damage}ƒ_ƒ[ƒW‚ğó‚¯‚½");
+        GameManager.Instance.AddPlayerDamageLog($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ{damage}ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸ");
         if (_hp <= 0)
         {
             Death();
@@ -75,7 +75,7 @@ public class Player : SingletonMonoBehaviour<Player>
 
     void Death()
     {
-        GameManager.Instance.AddPlayerDeathLog($"ƒvƒŒƒCƒ„[‚ª€–S‚µ‚½");
+        GameManager.Instance.AddPlayerDeathLog($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã—ãŸ");
     }
 
     public void AddSkill(int id)

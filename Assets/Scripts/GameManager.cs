@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
@@ -34,7 +34,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// “G‚Ìƒ_ƒ[ƒWƒƒO‚Ì’Ç‰Á
+    /// æ•µã®ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°ã®è¿½åŠ 
     /// </summary>
     /// <param name="str"></param>
     public void AddEnemyDamageLog(string str)
@@ -43,7 +43,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// “G‚Ì€–SƒƒO‚Ì’Ç‰Á
+    /// æ•µã®æ­»äº¡ãƒ­ã‚°ã®è¿½åŠ 
     /// </summary>
     /// <param name="str"></param>
     public void AddEnemyDeathLog(string str)
@@ -52,7 +52,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// “G‚Ìƒ_ƒ[ƒWƒƒO‚Ìo—Í
+    /// æ•µã®ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°ã®å‡ºåŠ›
     /// </summary>
     void EnemyDamageLog()
     {
@@ -61,11 +61,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             Debug.Log(_enemyDamageLog);
         }
         _enemyDamageLog.Clear();
-        _enemyDamageLog.AppendLine("ƒ_ƒ[ƒWƒƒO");
+        _enemyDamageLog.AppendLine("ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°");
     }
 
     /// <summary>
-    /// “G‚Ì€–SƒƒO‚Ìo—Í
+    /// æ•µã®æ­»äº¡ãƒ­ã‚°ã®å‡ºåŠ›
     /// </summary>
     void EnemyDeathLog()
     {
@@ -74,11 +74,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             Debug.Log(_enemyDeathLog);
         }
         _enemyDeathLog.Clear();
-        _enemyDamageLog.AppendLine("€–SƒƒO");
+        _enemyDamageLog.AppendLine("æ­»äº¡ãƒ­ã‚°");
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ìƒ_ƒ[ƒWƒƒO‚Ì’Ç‰Á
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°ã®è¿½åŠ 
     /// </summary>
     /// <param name="str"></param>
     public void AddPlayerDamageLog(string str)
@@ -87,7 +87,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ì€–SƒƒO‚Ì’Ç‰Á
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ­»äº¡ãƒ­ã‚°ã®è¿½åŠ 
     /// </summary>
     /// <param name="str"></param>
     public void AddPlayerDeathLog(string str)
@@ -96,7 +96,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ìƒ_ƒ[ƒWƒƒO‚Ìo—Í
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°ã®å‡ºåŠ›
     /// </summary>
     void PlayerDamageLog()
     {
@@ -105,11 +105,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             Debug.Log(_playerDamageLog);
         }
         _playerDamageLog.Clear();
-        _playerDamageLog.AppendLine("ƒ_ƒ[ƒWƒƒO");
+        _playerDamageLog.AppendLine("ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ­ã‚°");
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ì€–SƒƒO‚Ìo—Í
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ­»äº¡ãƒ­ã‚°ã®å‡ºåŠ›
     /// </summary>
     void PlayerDeathLog()
     {
@@ -118,6 +118,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             Debug.Log(_playerDeathLog);
         }
         _playerDeathLog.Clear();
-        _playerDamageLog.AppendLine("€–SƒƒO");
+        _playerDamageLog.AppendLine("æ­»äº¡ãƒ­ã‚°");
     }
 }

@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 
 /// <summary>
-/// ƒXƒLƒ‹‚ğŠÇ—‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
+/// ã‚¹ã‚­ãƒ«ã‚’ç®¡ç†ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 /// </summary>
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
@@ -36,7 +36,7 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
 
 
     /// <summary>
-    /// ƒXƒLƒ‹‚Ìæ“¾A‹­‰»
+    /// ã‚¹ã‚­ãƒ«ã®å–å¾—ã€å¼·åŒ–
     /// </summary>
     /// <param name="id"></param>
     public void AddSkill(int id)
