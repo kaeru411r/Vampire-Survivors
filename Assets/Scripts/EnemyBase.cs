@@ -29,7 +29,7 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        Vector3 pPos = GameManager.Player.transform.position;
+        Vector3 pPos = Player.Instance.transform.position;
         Vector3 dir = (pPos - transform.position).normalized;
         _rb.velocity = dir * _moveSpeed;
     }
@@ -61,7 +61,15 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Player.Instance.Damage(_atk);
+            Attack();
         }
+    }
+
+    /// <summary>
+    /// ÉvÉåÉCÉÑÅ[Ç…çUåÇÇ∑ÇÈ
+    /// </summary>
+    void Attack()
+    {
+        Player.Instance.Damage(_atk);
     }
 }
