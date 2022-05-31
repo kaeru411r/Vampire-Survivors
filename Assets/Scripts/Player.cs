@@ -6,7 +6,7 @@ using System.Linq;
 /// <summary>
 /// プレイヤーの操作、管理をするコンポーネント
 /// </summary>
-public class Player : MonoBehaviour
+public class Player : SingletonMonoBehaviour<Player>
 {
 
     //基礎ステータス
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     /// <summary>現在の残りHP</summary>
     float _hp;
     /// <summary>スキルリスト</summary>
-    List<ISkill> _skills = new List<ISkill> ();
+    List<ISkill> _skills = new List<ISkill>();
 
     //ステータス補正値
     float _maxHPPlus;
@@ -76,5 +76,20 @@ public class Player : MonoBehaviour
         {
             hs.Single().LevelUp();
         }
+    }
+
+    public void Damage(float damage)
+    {
+        _hp -= damage;
+        GameManager.Instance.AddPlayerDamageLog($"プレイヤーが{damage}ダメージを受けた");
+        if (_hp <= 0)
+        {
+            Death();
+        }
+    }
+
+    void Death()
+    {
+        GameManager.Instance.AddPlayerDeathLog($"プレイヤーが死亡した");
     }
 }

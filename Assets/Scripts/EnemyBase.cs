@@ -8,6 +8,7 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] float _hp;
     [SerializeField] float _moveSpeed;
+    [SerializeField] float _atk;
 
     Rigidbody2D _rb;
 
@@ -55,4 +56,12 @@ public class EnemyBase : MonoBehaviour
         GameManager.Instance.AddEnemyDeathLog($"{name}‚ª“|‚ê‚½");
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player.Instance.Damage(_atk);
+        }
+    }
 }
