@@ -5,6 +5,10 @@ using System.Text;
 using UnityEngine;
 using UnityEditor;
 
+
+/// <summary>
+/// 外部からのコピペ
+/// </summary>
 namespace GarageKit
 {
     /// <summary>

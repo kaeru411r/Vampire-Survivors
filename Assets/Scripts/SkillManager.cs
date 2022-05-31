@@ -9,20 +9,45 @@ using System.Linq;
 /// </summary>
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
+    /// <summary>
+    /// IDと一致するスキルを返す
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public ISkill GetSkill(int id)
     {
         switch (id)
         {
-            case 0:
-                return new AddHp();
+            case 1:
+                ISkill s = new AddHp();
+                return SkillIDCheck(id, ref s);
             default:
+                Debug.LogError($"Skill{id}は設定されていません");
                 return null;
         }
     }
-    public ISkill[] Skills { get { return _skills.ToArray(); } }
+
+    /// <summary>
+    /// idとskillのIDが一致しているか確かめ、
+    /// 一致していたらskillを一致していなかったらnullを返す
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="skill"></param>
+    /// <returns></returns>
+    public ISkill SkillIDCheck(int id, ref ISkill skill)
+    {
+        if((SkillDef)id == skill.ID)
+        {
+            return skill;
+        }
+        Debug.LogError($"Skill{id}の取得に失敗しました");
+        return null;
+    }
+
+    public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
 
 
-    List<ISkill> _skills = new List<ISkill>();
+    Dictionary<int, ISkill> _skills = new Dictionary<int, ISkill>();
 
     private void Start()
     {
@@ -31,7 +56,10 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
 
     private void Update()
     {
-        _skills.ForEach(s => s.Update());
+        foreach(var skill in Skills)
+        {
+            skill.Update();
+        }
     }
 
 
@@ -41,18 +69,19 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
     /// <param name="id"></param>
     public void AddSkill(int id)
     {
-        var hs = _skills.Where(s => s.ID == (SkillDef)id);
-        if (hs.Count() != 0)
+        if (_skills.ContainsKey(id))
         {
-            ISkill s = GetSkill(id);
-            if (s != null)
-            {
-                _skills.Add(s);
-            }
+            _skills[id].Update();
         }
         else
         {
-            hs.Single().LevelUp();
+            var s = GetSkill(id);
+            {
+                if(s != null)
+                {
+                    _skills.Add(id, s);
+                }
+            }
         }
     }
 }
