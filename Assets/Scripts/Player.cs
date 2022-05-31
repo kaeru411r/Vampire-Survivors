@@ -30,7 +30,7 @@ public class Player : SingletonMonoBehaviour<Player>
     /// <summary>現在の残りHP</summary>
     float _hp;
     /// <summary>スキルリスト</summary>
-    [SerializeField] List<ISkill> _skills = new List<ISkill>();
+    [SerializeField] List<int> _skillIDs = new List<int>();
 
     //ステータス補正値
     float _maxHPPlus;
@@ -54,12 +54,12 @@ public class Player : SingletonMonoBehaviour<Player>
     {
         DontDestroyOnLoad(gameObject);
         _hp = _maxHp;
+        _skillIDs.ForEach(i => SkillManager.Instance.AddSkill(i));
     }
 
     // Update is called once per frame
     void Update()
     {
-        _skills.ForEach(s => s.Update());
     }
 
 
@@ -76,5 +76,11 @@ public class Player : SingletonMonoBehaviour<Player>
     void Death()
     {
         GameManager.Instance.AddPlayerDeathLog($"プレイヤーが死亡した");
+    }
+
+    public void AddSkill(int id)
+    {
+        _skillIDs.Add(id);
+        SkillManager.Instance.AddSkill(id);
     }
 }
