@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ISkill
 {
-    SkillDef ID { get; }
+    SkillID ID { get; }
 
     void SetUp();
 
@@ -16,7 +16,7 @@ public interface ISkill
 }
 
 
-public enum SkillDef
+public enum SkillID
 {
     Gun = 0,
     AddHP = 1,

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddHp : ISkill
 {
-    public SkillDef ID => SkillDef.AddHP;
+    public SkillID ID => SkillID.AddHP;
 
 
     int _level;

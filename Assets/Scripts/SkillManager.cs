@@ -16,32 +16,26 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
     /// <returns></returns>
     public ISkill GetSkill(int id)
     {
-        switch (id)
+        switch ((SkillID)id)
         {
-            case 1:
+            case SkillID.AddHP:
                 ISkill s = new AddHp();
-                return SkillIDCheck(id, ref s);
+                return SkillIDCheck(id, s);
             default:
                 Debug.LogError($"Skill{id}は設定されていません");
                 return null;
         }
-    }
 
-    /// <summary>
-    /// idとskillのIDが一致しているか確かめ、
-    /// 一致していたらskillを一致していなかったらnullを返す
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="skill"></param>
-    /// <returns></returns>
-    public ISkill SkillIDCheck(int id, ref ISkill skill)
-    {
-        if((SkillDef)id == skill.ID)
+
+        ISkill SkillIDCheck(int id, ISkill skill)
         {
-            return skill;
+            if ((SkillID)id == skill.ID)
+            {
+                return skill;
+            }
+            Debug.LogError($"Skill{id}の取得に失敗しました");
+            return null;
         }
-        Debug.LogError($"Skill{id}の取得に失敗しました");
-        return null;
     }
 
 
