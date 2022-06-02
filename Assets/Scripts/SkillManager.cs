@@ -9,60 +9,32 @@ using System.Linq;
 /// </summary>
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
-    /// <summary>
-    /// IDと一致するスキルを返す
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    public ISkill GetSkill(int id)
-    {
-        switch ((SkillID)id)
-        {
-            case SkillID.AddHP:
-                ISkill s = new AddHp();
-                return SkillIDCheck((SkillID)id, s);
-            default:
-                Debug.LogError($"Skill{id}は設定されていません");
-                return null;
-        }
-
-    }
-
-    /// <summary>
-    /// IDと一致するスキルを返す
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    public ISkill GetSkill(SkillID id)
-    {
-        switch (id)
-        {
-            case SkillID.AddHP:
-                ISkill s = new AddHp();
-                return SkillIDCheck(id, s);
-            default:
-                Debug.LogError($"Skill{id}は設定されていません");
-                return null;
-        }
-    }
-
-    ISkill SkillIDCheck(SkillID id, ISkill skill)
-    {
-        if (id == skill.ID)
-        {
-            return skill;
-        }
-        Debug.LogError($"Skill{id}の取得に失敗しました");
-        return null;
-    }
-
 
     /// <summary>現在取得しているスキル</summary>
     public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
+    
+    public ISkill[] AllSkills
+    {
+        get
+        {
+            if(_allSkills == null)
+            {
+                _allSkills = new Dictionary<SkillID, ISkill>();
+                AllSkillGet();
+            }
+            return _allSkills.Values.ToArray();
+        }
+    }
 
 
     Dictionary<SkillID, ISkill> _skills = new Dictionary<SkillID, ISkill>();
-    //Dictionary<>
+    Dictionary<SkillID, ISkill> _allSkills;
+
+
+    private void Awake()
+    {
+        AllSkillGet();
+    }
 
     private void Start()
     {
@@ -99,5 +71,53 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 }
             }
         }
+    }
+    /// <summary>
+    /// IDと一致するスキルを返す
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public ISkill GetSkill(int id)
+    {
+        return GetSkill((SkillID)id);
+    }
+
+    /// <summary>
+    /// IDと一致するスキルを返す
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public ISkill GetSkill(SkillID id)
+    {
+        if(_allSkills == null)
+        {
+            AllSkillGet();
+        }
+        switch (id)
+        {
+            case SkillID.AddHP:
+                return _allSkills[id];
+            default:
+                Debug.LogError($"Skill{id}は設定されていません");
+                return null;
+        }
+    }
+
+    ISkill SkillIDCheck(SkillID id, ISkill skill)
+    {
+        if (id == skill.ID)
+        {
+            return skill;
+        }
+        Debug.LogError($"Skill{id}の取得に失敗しました");
+        return null;
+    }
+
+    /// <summary>
+    /// 全てのスキルを取得する
+    /// </summary>
+    void AllSkillGet()
+    {
+        _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
     }
 }
