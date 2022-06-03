@@ -35,7 +35,7 @@ public class AddHp : ISkill
 
     public void LevelUp()
     {
-        if (_level + 1 == _addTable.Length)
+        if (_level == _addTable.Length)
         {
             _isLevelMax = true;
         }
@@ -44,14 +44,13 @@ public class AddHp : ISkill
             Player.Instance.MaxHPPlus += _addTable[_level] - _addTable[_level - 1];
             _level++;
         }
-        Debug.Log(Player.Instance.MaxHPPlus);
+        Debug.Log(1);
     }
 
     public void SetUp()
     {
         Player.Instance.MaxHPPlus += _addTable[0];
         _level = 1;
-        Debug.Log(Player.Instance.MaxHPPlus);
     }
 
     public void Update()
@@ -61,7 +60,6 @@ public class AddHp : ISkill
     public void Delete()
     {
         Player.Instance.MaxHPPlus -= _addTable[_level];
-        Debug.Log(Player.Instance.MaxHPPlus);
     }
 
 }

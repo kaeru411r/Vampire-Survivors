@@ -49,6 +49,8 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
     }
 
 
+
+
     /// <summary>
     /// スキルの取得、強化
     /// </summary>
@@ -58,8 +60,10 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
         var sId = (SkillID)id;
         if (_skills.ContainsKey(sId))
         {
-            _skills[sId].LevelUp();
-            Debug.Log(1);
+            if (!_skills[sId].IsLevelMax)
+            {
+                _skills[sId].LevelUp();
+            }
         }
         else
         {
@@ -69,7 +73,6 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 {
                     _skills.Add(sId, s);
                     s.SetUp();
-                    Debug.Log(2);
                 }
             }
         }
