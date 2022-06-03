@@ -19,7 +19,6 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
         {
             if(_allSkills == null)
             {
-                _allSkills = new Dictionary<SkillID, ISkill>();
                 AllSkillGet();
             }
             return _allSkills.Values.ToArray();
@@ -59,7 +58,8 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
         var sId = (SkillID)id;
         if (_skills.ContainsKey(sId))
         {
-            _skills[sId].Update();
+            _skills[sId].LevelUp();
+            Debug.Log(1);
         }
         else
         {
@@ -68,10 +68,14 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 if(s != null)
                 {
                     _skills.Add(sId, s);
+                    s.SetUp();
+                    Debug.Log(2);
                 }
             }
         }
     }
+
+
     /// <summary>
     /// IDと一致するスキルを返す
     /// </summary>
@@ -118,6 +122,10 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
     /// </summary>
     void AllSkillGet()
     {
+        if(_allSkills == null)
+        {
+            _allSkills = new Dictionary<SkillID, ISkill>();
+        }
         _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
     }
 }
