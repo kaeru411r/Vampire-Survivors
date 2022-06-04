@@ -121,6 +121,26 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
     }
 
     /// <summary>
+    /// スキルを消去
+    /// </summary>
+    /// <param name="id"></param>
+    public void RemoveSkill(int id)
+    {
+        RemoveSkill((SkillID)id);
+    }
+
+
+    /// <summary>
+    /// スキルを消去
+    /// </summary>
+    /// <param name="id"></param>
+    public void RemoveSkill(SkillID id)
+    {
+        _skills[id].Delete();
+        _skills.Remove(id);
+    }
+
+    /// <summary>
     /// 全てのスキルを取得する
     /// </summary>
     void AllSkillGet()
