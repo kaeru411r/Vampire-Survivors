@@ -29,9 +29,6 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        Vector3 pPos = Player.Instance.transform.position;
-        Vector3 dir = (pPos - transform.position).normalized;
-        _rb.velocity = dir * _moveSpeed;
     }
 
     /// <summary>

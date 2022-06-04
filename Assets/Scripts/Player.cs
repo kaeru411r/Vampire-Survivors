@@ -6,60 +6,83 @@ using System.Linq;
 /// <summary>
 /// プレイヤーの操作、管理をするコンポーネント
 /// </summary>
-public class Player : SingletonMonoBehaviour<Player>
+public class Player
 {
+    static private Player _instance = new Player();
+    private Player(){}
+    static public Player Instance => _instance;
 
     //基礎ステータス
-    [Tooltip("基礎最大HP")]
-    [SerializeField] float _baseMaxHp;
-    [Tooltip("基礎移動速度")]
-    [SerializeField] float _baseSpeed;
-    [Tooltip("基礎攻撃力")]
-    [SerializeField] float _baseAtk;
-    [Tooltip("基礎防御力")]
-    [SerializeField] float _baseDef;
-    [Tooltip("基礎運")]
-    [SerializeField] float _baseLuck;
-    [Tooltip("基礎経験値倍率")]
-    [SerializeField] float _baseExpFact;
-    [Tooltip("基礎クールタイム倍率")]
-    [SerializeField] float _baseCtFact;
+    /// <summary>基礎最大HP</summary>
+    float _baseMaxHp;
+    /// <summary>基礎移動速度</summary>
+    float _baseSpeed;
+    /// <summary>基礎攻撃力</summary>
+    float _baseAtk;
+    /// <summary>基礎防御力</summary>
+    float _baseDef;
+    /// <summary>基礎運</summary>
+    float _baseLuck;
+    /// <summary>基礎経験値倍率</summary>
+    float _baseExpFact;
+    /// <summary>基礎クールタイム倍率</summary>
+    float _baseCtFact;
 
     /// <summary>最大HP</summary>
     float _maxHp;
+    //ステータス補正値
+    /// <summary>最大HPの倍数</summary>
+    float _maxHPFact;
+    /// <summary>移動速度の倍数</summary>
+    float _speedFact;
+    /// <summary>攻撃力の倍数</summary>
+    float _atkFact;
+    /// <summary>防御力の倍数</summary>
+    float _defFact;
+    /// <summary>獲得経験値量の倍数</summary>
+    float _luckFact;
+
     /// <summary>現在の残りHP</summary>
     float _hp;
     /// <summary>スキルリスト</summary>
-    [SerializeField] List<int> _skillIDs = new List<int>();
-
-    //ステータス補正値
-    float _maxHPPlus;
+    List<SkillID> _skillIDs = new List<SkillID>();
+    /// <summary>現在の経験値量</summary>
     float _exp;
-    float _atkCorrection;
-    float _expFactCorrection;
-    float _ctFactCorrection;
-    float _defCorrection;
-    float _luckCorrection;
+    /// <summary></summary>
+    public float Exp { get => _exp; }
 
-    public float MaxHPPlus { get => _maxHPPlus; set => _maxHPPlus = value; }
-    public float Exp { get => _exp; set => _exp = value; }
-    public float AtkCorrection { get => _atkCorrection; set => _atkCorrection = value; }
-    public float ExpFactCorrection { get => _expFactCorrection; set => _expFactCorrection = value; }
-    public float CtFactCorrection { get => _ctFactCorrection; set => _ctFactCorrection = value; }
-    public float DefCorrection { get => _defCorrection; set => _defCorrection = value; }
-    public float LuckCorrection { get => _luckCorrection; set => _luckCorrection = value; }
+
+
+    /// <summary>基礎最大HP</summary>
+    public float BaseMaxHp { get => _baseMaxHp; set => _baseMaxHp = value; }
+    /// <summary>基礎移動速度</summary>
+    public float BaseSpeed { get => _baseSpeed; set => _baseSpeed = value; }
+    /// <summary>基礎攻撃力</summary>
+    public float BaseAtk { get => _baseAtk; set => _baseAtk = value; }
+    /// <summary>基礎防御力</summary>
+    public float BaseDef { get => _baseDef; set => _baseDef = value; }
+    /// <summary>基礎運</summary>
+    public float BaseLuck { get => _baseLuck; set => _baseLuck = value; }
+    /// <summary>基礎経験値倍率</summary>
+    public float BaseExpFact { get => _baseExpFact; set => _baseExpFact = value; }
+    /// <summary>基礎クールタイム倍率</summary>
+    public float BaseCtFact { get => _baseCtFact; set => _baseCtFact = value; }
+    /// <summary>最大HPの倍数</summary>
+    public float MaxHPFact { get => _maxHPFact; set => _maxHPFact = value; }
+    /// <summary>移動速度の倍数</summary>
+    public float SpeedFact { get => _speedFact; set => _speedFact = value; }
+    /// <summary>攻撃力の倍数</summary>
+    public float AtkFact { get => _atkFact; set => _atkFact = value; }
+    /// <summary>防御力の倍数</summary>
+    public float DefFact { get => _defFact; set => _defFact = value; }
+    /// <summary>獲得経験値量の倍数</summary>
+    public float LuckFact { get => _luckFact; set => _luckFact = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         _hp = _maxHp;
         _skillIDs.ForEach(i => SkillManager.Instance.AddSkill(i));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
 
@@ -80,7 +103,7 @@ public class Player : SingletonMonoBehaviour<Player>
 
     public void AddSkill(int id)
     {
-        _skillIDs.Add(id);
+        _skillIDs.Add((SkillID)id);
         SkillManager.Instance.AddSkill(id);
     }
 }

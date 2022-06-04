@@ -32,6 +32,7 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
 
     private void Awake()
     {
+        base.Awake();
         AllSkillGet();
     }
 
@@ -72,6 +73,32 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
                 if(s != null)
                 {
                     _skills.Add(sId, s);
+                    s.SetUp();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// スキルの取得、強化
+    /// </summary>
+    /// <param name="id"></param>
+    public void AddSkill(SkillID id)
+    {
+        if (_skills.ContainsKey(id))
+        {
+            if (!_skills[id].IsLevelMax)
+            {
+                _skills[id].LevelUp();
+            }
+        }
+        else
+        {
+            var s = GetSkill(id);
+            {
+                if (s != null)
+                {
+                    _skills.Add(id, s);
                     s.SetUp();
                 }
             }

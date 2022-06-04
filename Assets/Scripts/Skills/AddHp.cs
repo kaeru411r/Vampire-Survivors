@@ -41,7 +41,7 @@ public class AddHp : ISkill
         }
         else
         {
-            Player.Instance.MaxHPPlus += _addTable[_level] - _addTable[_level - 1];
+            Player.Instance.BaseMaxHp += _addTable[_level] - _addTable[_level - 1];
             _level++;
         }
         Debug.Log(1);
@@ -49,7 +49,7 @@ public class AddHp : ISkill
 
     public void SetUp()
     {
-        Player.Instance.MaxHPPlus += _addTable[0];
+        Player.Instance.BaseMaxHp += _addTable[0];
         _level = 1;
     }
 
@@ -59,7 +59,7 @@ public class AddHp : ISkill
 
     public void Delete()
     {
-        Player.Instance.MaxHPPlus -= _addTable[_level];
+        Player.Instance.BaseMaxHp -= _addTable[_level];
     }
 
 }
