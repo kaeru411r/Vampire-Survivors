@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+public class Enemy : MonoBehaviour , IObjectPool
 {
-    [SerializeField] List<EnemyData> _detaList = new List<EnemyData>();
+    [SerializeField] static List<EnemyData> _detaList = new List<EnemyData>();
 
     Rigidbody2D _rb;
+    SpriteRenderer _sr;
 
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -66,13 +68,20 @@ public class Enemy : MonoBehaviour
     {
         //Player.Instance.Damage(_atk);
     }
+
+    public void SetUp()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Instantiate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Destroy()
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
-
-[System.Serializable]
-struct EnemyData
-{
-    public float hp;
-    public float speed;
-    public float atk;
-}

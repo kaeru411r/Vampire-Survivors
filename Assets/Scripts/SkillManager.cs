@@ -7,8 +7,10 @@ using System.Linq;
 /// <summary>
 /// スキルを管理するコンポーネント
 /// </summary>
-public class SkillManager : SingletonMonoBehaviour<SkillManager>
+public class SkillManager : MonoBehaviour
 {
+
+    static public SkillManager Instance { get; private set; }
 
     /// <summary>現在取得しているスキル</summary>
     public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
@@ -32,7 +34,11 @@ public class SkillManager : SingletonMonoBehaviour<SkillManager>
 
     private void Awake()
     {
-        base.Awake();
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         AllSkillGet();
     }
 

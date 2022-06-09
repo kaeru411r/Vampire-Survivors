@@ -3,20 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class GameManager : SingletonMonoBehaviour<GameManager>
+public class GameManager : MonoBehaviour
 {
+    static public GameManager Instance;
 
+    [Tooltip("ゲームの終了までの時間(分)")]
+    [SerializeField] int _gameTime;
+
+    /// <summary>エネミーのダメージログ</summary>
     StringBuilder _enemyDamageLog = new StringBuilder();
+    /// <summary>エネミーの死亡ログ</summary>
     StringBuilder _enemyDeathLog = new StringBuilder();
+    /// <summary>プレイヤーのダメージログ</summary>
     StringBuilder _playerDamageLog = new StringBuilder();
+    /// <summary>プレイヤーの死亡ログ</summary>
     StringBuilder _playerDeathLog = new StringBuilder();
+    /// <summary>現在のプレイ時間(秒)</summary>
+    float _playTime;
 
 
+    /// <summary>ゲームの進行段階</summary>
+    public int Degree { get { return (int)Mathf.Floor(_playTime * 60); }}
+    /// <summary>ゲームの終了までの時間(分)</summary>
+    public int GameTime { get => _gameTime; set => _gameTime = value; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
