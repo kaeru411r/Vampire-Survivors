@@ -4,15 +4,12 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyBase : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    [SerializeField] float _hp;
-    [SerializeField] float _moveSpeed;
-    [SerializeField] float _atk;
+    [SerializeField] List<EnemyData> _detaList = new List<EnemyData>();
 
     Rigidbody2D _rb;
 
-    public float HP { get => _hp; }
 
     private void Start()
     {
@@ -37,12 +34,12 @@ public class EnemyBase : MonoBehaviour
     /// <param name="damage"></param>
     public void Damage(float damage)
     {
-        _hp -= damage;
-        GameManager.Instance.AddEnemyDamageLog($"{name}に{damage}ダメージ");
-        if(_hp <= 0)
-        {
-            Death();
-        }
+        //_hp -= damage;
+        //GameManager.Instance.AddEnemyDamageLog($"{name}に{damage}ダメージ");
+        //if(_hp <= 0)
+        //{
+        //    Death();
+        //}
     }
 
     /// <summary>
@@ -67,6 +64,15 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     void Attack()
     {
-        Player.Instance.Damage(_atk);
+        //Player.Instance.Damage(_atk);
     }
+}
+
+
+[System.Serializable]
+struct EnemyData
+{
+    public float hp;
+    public float speed;
+    public float atk;
 }
