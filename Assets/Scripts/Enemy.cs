@@ -36,12 +36,12 @@ public class Enemy : MonoBehaviour , IObjectPool
     /// <param name="damage"></param>
     public void Damage(float damage)
     {
-        //_hp -= damage;
-        //GameManager.Instance.AddEnemyDamageLog($"{name}に{damage}ダメージ");
-        //if(_hp <= 0)
-        //{
-        //    Death();
-        //}
+        _hp -= damage;
+        GameManager.Instance.AddEnemyDamageLog($"{name}に{damage}ダメージ");
+        if (_hp <= 0)
+        {
+            Death();
+        }
     }
 
     /// <summary>
@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour , IObjectPool
     public void Death()
     {
         GameManager.Instance.AddEnemyDeathLog($"{name}が倒れた");
+        Destroy();
     }
 
 

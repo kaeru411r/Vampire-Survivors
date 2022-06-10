@@ -10,8 +10,9 @@ public class EnemysManager : MonoBehaviour
     static public EnemysManager Instance;
 
 
-    /// <summary>エネミーのステータスと出現率を入れる配列を時間分に入れる配列</summary>
-    [SerializeField] DegreeEnemySpawn[] _enemySpawnArray;
+
+    [Tooltip("エネミーのステータスと出現率を入れる配列を時間分に入れる配列")]
+    [SerializeField] List<DegreeEnemySpawn> _enemySpawnList;
     private void Awake()
     {
         Instance = this;
@@ -24,22 +25,44 @@ public class EnemysManager : MonoBehaviour
     /// <returns></returns>
     public EnemyData GetData(int degree)
     {
-        var data = _enemySpawnArray[Mathf.Min(degree, _enemySpawnArray.Length - 1)];
+        NullCheck();
+        var data = _enemySpawnList[Mathf.Min(degree, _enemySpawnList.Count - 1)];
+        if(data.EnemySpawnsList.Count == 0)
+        {
+            _enemySpawnList.Remove(data);
+        }
         int all =  0;
-        foreach(var e in data.EnemySpawnsArray)
+        foreach(var e in data.EnemySpawnsList)
         {
             all += e.Probability;
         }
         int num = Random.Range(0, all);
-        for(int i = 0; i < data.EnemySpawnsArray.Length; i++)
+        for(int i = 0; i < data.EnemySpawnsList.Count; i++)
         {
-            num -= data.EnemySpawnsArray[i].Probability;
+            num -= data.EnemySpawnsList[i].Probability;
             if(num < 0)
             {
-                return data.EnemySpawnsArray[i].Data;
+                return data.EnemySpawnsList[i].Data;
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// EnemySpawnsListにnullやカウントが0のものが無いか確かめる。
+    /// あれば消す
+    /// </summary>
+    void NullCheck()
+    {
+        for(int i = 0; i < _enemySpawnList.Count; i++)
+        {
+            _enemySpawnList[i].NullCheck();
+            if(_enemySpawnList[i].EnemySpawnsList == null || _enemySpawnList[i].EnemySpawnsList.Count == 0)
+            {
+                _enemySpawnList.RemoveAt(i);
+                i--;
+            }
+        }
     }
 }
 
@@ -50,9 +73,12 @@ public class EnemysManager : MonoBehaviour
 [System.Serializable]
 struct EnemySpawn
 {
+    [Tooltip("エネミーのデータ")]
     public EnemyData Data;
+    [Tooltip("湧く比率")]
     public int Probability;
 }
+
 
 /// <summary>
 /// インスペクター上で二次元配列の表示を実現するための型
@@ -60,5 +86,22 @@ struct EnemySpawn
 [System.Serializable]
 struct DegreeEnemySpawn
 {
-    public EnemySpawn[] EnemySpawnsArray;
+    [Tooltip("インスペクター上で二次元配列の表示を実現するための型")]
+    public List<EnemySpawn> EnemySpawnsList;
+    [Tooltip("この段階で湧く敵の最大値")]
+    public int MaxNumber;
+
+    /// <summary>
+    /// 配列内のdataにNullが合ったら削除
+    /// </summary>
+    public void NullCheck()
+    {
+        for(int i = 0; i < EnemySpawnsList.Count; i++)
+        {
+            if(EnemySpawnsList[i].Data == null)
+            {
+                EnemySpawnsList.RemoveAt(i);
+            }
+        }
+    }
 }
