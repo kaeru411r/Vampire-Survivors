@@ -20,13 +20,25 @@ public class EnemysManager : MonoBehaviour
     /// <summary>
     /// 現在のエネミーのデータを返す
     /// </summary>
-    /// <param name="i"></param>
+    /// <param name="degree"></param>
     /// <returns></returns>
-    public EnemyData GetData()
+    public EnemyData GetData(int degree)
     {
-        
-        var data = _enemySpawnArray[Mathf.Min(GameManager.Instance.Degree, _enemySpawnArray.Length - 1)];
-        
+        var data = _enemySpawnArray[Mathf.Min(degree, _enemySpawnArray.Length - 1)];
+        int all =  0;
+        foreach(var e in data.enemySpawnsArray)
+        {
+            all += e.probability;
+        }
+        int num = Random.Range(0, all);
+        for(int i = 0; i < data.enemySpawnsArray.Length; i++)
+        {
+            num -= data.enemySpawnsArray[i].probability;
+            if(num < 0)
+            {
+                return data.enemySpawnsArray[i].data;
+            }
+        }
         return null;
     }
 }
