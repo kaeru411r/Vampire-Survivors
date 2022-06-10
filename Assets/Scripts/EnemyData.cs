@@ -6,9 +6,9 @@
 /// </summary>
 public class EnemyData : MonoBehaviour
 {
-    public float hp;
-    public float speed;
-    public float atk;
-    public float radius;
-    public Sprite sprite;
+    public float HP;
+    public float Speed;
+    public float Atk;
+    public float Radius;
+    public Sprite Sprite;
 }

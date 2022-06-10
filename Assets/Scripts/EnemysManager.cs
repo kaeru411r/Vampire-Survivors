@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EnemysManager : MonoBehaviour
 {
-    static EnemysManager Instance;
+    static public EnemysManager Instance;
 
 
     /// <summary>エネミーのステータスと出現率を入れる配列を時間分に入れる配列</summary>
@@ -26,17 +26,17 @@ public class EnemysManager : MonoBehaviour
     {
         var data = _enemySpawnArray[Mathf.Min(degree, _enemySpawnArray.Length - 1)];
         int all =  0;
-        foreach(var e in data.enemySpawnsArray)
+        foreach(var e in data.EnemySpawnsArray)
         {
-            all += e.probability;
+            all += e.Probability;
         }
         int num = Random.Range(0, all);
-        for(int i = 0; i < data.enemySpawnsArray.Length; i++)
+        for(int i = 0; i < data.EnemySpawnsArray.Length; i++)
         {
-            num -= data.enemySpawnsArray[i].probability;
+            num -= data.EnemySpawnsArray[i].Probability;
             if(num < 0)
             {
-                return data.enemySpawnsArray[i].data;
+                return data.EnemySpawnsArray[i].Data;
             }
         }
         return null;
@@ -50,8 +50,8 @@ public class EnemysManager : MonoBehaviour
 [System.Serializable]
 struct EnemySpawn
 {
-    public EnemyData data;
-    public int probability;
+    public EnemyData Data;
+    public int Probability;
 }
 
 /// <summary>
@@ -60,5 +60,5 @@ struct EnemySpawn
 [System.Serializable]
 struct DegreeEnemySpawn
 {
-    public EnemySpawn[] enemySpawnsArray;
+    public EnemySpawn[] EnemySpawnsArray;
 }

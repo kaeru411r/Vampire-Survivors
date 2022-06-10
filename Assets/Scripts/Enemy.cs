@@ -6,17 +6,21 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour , IObjectPool
 {
-    [SerializeField] static List<EnemyData> _detaList = new List<EnemyData>();
-
     Rigidbody2D _rb;
     SpriteRenderer _sr;
     CircleCollider2D _cc;
+
+    EnemyData _data;
+    float _hp;
 
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
+        _cc = GetComponent<CircleCollider2D>();
+        SetUp();
+        Instantiate(transform.position);
     }
 
     private void Update()
@@ -67,22 +71,34 @@ public class Enemy : MonoBehaviour , IObjectPool
     /// </summary>
     void Attack()
     {
-        //Player.Instance.Damage(_atk);
+        Player.Instance.Damage(_data.Atk);
     }
 
     public void SetUp()
     {
-        throw new System.NotImplementedException();
+        _cc.enabled = false;
+        _sr.enabled = false;
+        _rb.Sleep();
+        gameObject.SetActive(false);
     }
 
-    public void Instantiate()
+    public void Instantiate(Vector3 position)
     {
-        throw new System.NotImplementedException();
+        _data = EnemysManager.Instance.GetData(GameManager.Instance.Degree);
+        _cc.enabled = true;
+        _sr.enabled = true;
+        _rb.WakeUp();
+        transform.position = position;
+        _cc.radius = _data.Radius;
+        _sr.sprite = _data.Sprite;
+        _hp = _data.HP;
     }
 
     public void Destroy()
     {
-        throw new System.NotImplementedException();
+        _cc.enabled = false;
+        _sr.enabled = false;
+        _rb.Sleep();
     }
 }
 

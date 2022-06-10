@@ -4,9 +4,19 @@ using UnityEngine;
 
 interface IObjectPool
 {
+    /// <summary>
+    /// オブジェクトをプールするときに呼ぶ
+    /// </summary>
     void SetUp();
 
-    void Instantiate();
+    /// <summary>
+    /// オブジェクトを有効にするとき呼ぶ
+    /// </summary>
+    /// <param name="position"></param>
+    void Instantiate(Vector3 position);
 
+    /// <summary>
+    /// オブジェクト無効時に呼ぶ
+    /// </summary>
     void Destroy();
 }

@@ -58,6 +58,10 @@ public class GameManager : MonoBehaviour
     /// <param name="str"></param>
     public void AddEnemyDamageLog(string str)
     {
+        if (_enemyDamageLog.Length == 0)
+        {
+            _enemyDamageLog.AppendLine("ダメージログ");
+        }
         _enemyDamageLog.AppendLine(str);
     }
 
@@ -67,6 +71,10 @@ public class GameManager : MonoBehaviour
     /// <param name="str"></param>
     public void AddEnemyDeathLog(string str)
     {
+        if (_enemyDeathLog.Length == 0)
+        {
+            _enemyDamageLog.AppendLine("死亡ログ");
+        }
         _enemyDeathLog.AppendLine(str);
     }
 
@@ -80,7 +88,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(_enemyDamageLog);
         }
         _enemyDamageLog.Clear();
-        _enemyDamageLog.AppendLine("ダメージログ");
     }
 
     /// <summary>
@@ -93,7 +100,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(_enemyDeathLog);
         }
         _enemyDeathLog.Clear();
-        _enemyDamageLog.AppendLine("死亡ログ");
     }
 
     /// <summary>
@@ -102,6 +108,10 @@ public class GameManager : MonoBehaviour
     /// <param name="str"></param>
     public void AddPlayerDamageLog(string str)
     {
+        if (_playerDamageLog.Length == 0)
+        {
+            _playerDamageLog.AppendLine("ダメージログ");
+        }
         _playerDamageLog.AppendLine(str);
     }
 
@@ -111,6 +121,10 @@ public class GameManager : MonoBehaviour
     /// <param name="str"></param>
     public void AddPlayerDeathLog(string str)
     {
+        if (_playerDeathLog.Length == 0)
+        {
+            _playerDeathLog.AppendLine("死亡ログ");
+        }
         _playerDeathLog.AppendLine(str);
     }
 
@@ -124,7 +138,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(_playerDamageLog);
         }
         _playerDamageLog.Clear();
-        _playerDamageLog.AppendLine("ダメージログ");
     }
 
     /// <summary>
@@ -137,6 +150,5 @@ public class GameManager : MonoBehaviour
             Debug.Log(_playerDeathLog);
         }
         _playerDeathLog.Clear();
-        _playerDamageLog.AppendLine("死亡ログ");
     }
 }
