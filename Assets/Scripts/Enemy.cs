@@ -16,11 +16,6 @@ public class Enemy : MonoBehaviour , IObjectPool
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _sr = GetComponent<SpriteRenderer>();
-        _cc = GetComponent<CircleCollider2D>();
-        SetUp();
-        Instantiate(transform.position);
     }
 
     private void Update()
@@ -76,10 +71,12 @@ public class Enemy : MonoBehaviour , IObjectPool
 
     public void SetUp()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponent<SpriteRenderer>();
+        _cc = GetComponent<CircleCollider2D>();
         _cc.enabled = false;
         _sr.enabled = false;
         _rb.Sleep();
-        gameObject.SetActive(false);
     }
 
     public void Instantiate(Vector3 position)

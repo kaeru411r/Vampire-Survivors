@@ -8,14 +8,14 @@ public class GameObjectTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(enemy);
+        enemy = Instantiate(enemy);
+        enemy.SetUp();
+        //enemy.Instantiate(transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //enemy.SetUp();
-        //enemy.Instantiate(transform.position);
     }
 }
