@@ -280,7 +280,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aacac2e0704a7334f9ec255d24eaad69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnArray: []
+  _enemySpawnList:
+  - EnemySpawnsList:
+    - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
+      Probability: 30
+    MaxNumber: 30
 --- !u!114 &179782293
 MonoBehaviour:
   m_ObjectHideFlags: 0
