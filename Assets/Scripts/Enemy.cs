@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour , IObjectPool
 {
     [SerializeField] static List<EnemyData> _detaList = new List<EnemyData>();
 
     Rigidbody2D _rb;
     SpriteRenderer _sr;
+    CircleCollider2D _cc;
 
 
     private void Start()

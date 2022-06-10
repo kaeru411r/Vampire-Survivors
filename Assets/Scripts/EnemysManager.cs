@@ -44,7 +44,9 @@ public class EnemysManager : MonoBehaviour
 }
 
 
-
+/// <summary>
+/// エネミーのデータと出現確立
+/// </summary>
 [System.Serializable]
 struct EnemySpawn
 {
@@ -52,6 +54,9 @@ struct EnemySpawn
     public int probability;
 }
 
+/// <summary>
+/// インスペクター上で二次元配列の表示を実現するための型
+/// </summary>
 [System.Serializable]
 struct DegreeEnemySpawn
 {
