@@ -51,18 +51,18 @@ public class GameData
     public float Recovery { get { return _recoveryBase * _recoveryFact; } }
     /// <summary></summary>
     public float CoolTime { get { return _coolTimeBase * _coolTimeFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
-    ///// <summary></summary>
-    //public float Atk { get { return _atkBase * _atkFact; } }
+    /// <summary></summary>
+    public float AttackArea { get { return _attackAreaBase * _attackAreaFact; } }
+    /// <summary></summary>
+    public float AttackSpeed { get { return _attackSpeedBase * _attackSpeedFact; } }
+    /// <summary></summary>
+    public float Duration { get { return _durationBase * _durationFact; } }
+    /// <summary></summary>
+    public float Amount { get { return _amountBase * _amountFact; } }
+    /// <summary></summary>
+    public float MoveSpeed { get { return _moveSpeedBase * _moveSpeedFact; } }
+    /// <summary></summary>
+    public float CollectionArea { get { return _collectionAreaBase * _collectionAreaFact; } }
 
     /// <summary></summary>
     float _atkBase;
@@ -105,29 +105,29 @@ public class GameData
     ///// <summary></summary>
     //float _base;
 
-    float _atkFact;
+    float _atkFact = 1;
     /// <summary></summary>
-    float _defFact;
+    float _defFact = 1;
     /// <summary></summary>
-    float _maxHPFact;
+    float _maxHPFact = 1;
     /// <summary></summary>
-    float _recoveryFact;
+    float _recoveryFact = 1;
     /// <summary></summary>
-    float _coolTimeFact;
+    float _coolTimeFact = 1;
     /// <summary></summary>
-    float _attackAreaFact;
+    float _attackAreaFact = 1;
     /// <summary></summary>
-    float _attackSpeedFact;
+    float _attackSpeedFact = 1;
     /// <summary></summary>
-    float _durationFact;
+    float _durationFact = 1;
     /// <summary></summary>
-    float _amountFact;
+    float _amountFact = 1;
     /// <summary></summary>
-    float _moveSpeedFact;
+    float _moveSpeedFact = 1;
     /// <summary></summary>
-    float _collectionAreaFact;
+    float _collectionAreaFact = 1;
     /// <summary></summary>
-    float _luckFact;
+    float _luckFact = 1;
     /// <summary></summary>
-    float _difficultyFact;
+    float _difficultyFact = 1;
 }

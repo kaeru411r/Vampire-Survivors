@@ -11,8 +11,13 @@ public class Player : MonoBehaviour
 {
     static public Player Instance;
 
-
+    /// <summary>現在のプレイヤーのHP</summary>
     float _hp;
+    /// <summary>リジットボディ</summary>
+    Rigidbody2D _rb;
+
+    /// <summary>現在のプレイヤーのHP</summary>
+    public float Hp { get => _hp; set => _hp = value; }
 
     private void Awake()
     {
@@ -23,16 +28,22 @@ public class Player : MonoBehaviour
     void Start()
     {
         _hp = GameData.Instance.MaxHP;
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        
+        Move();
     }
 
+    /// <summary>
+    /// プレイヤーの移動関数
+    /// </summary>
     private void Move()
     {
-        
+        Vector2 dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        Debug.Log($"{dir}, {GameData.Instance.MoveSpeed}");
+        _rb.velocity = dir * GameData.Instance.MoveSpeed;
     }
 
     public void Damage(float damage)

@@ -47,5 +47,5 @@ MonoBehaviour:
   HP: 100
   Speed: 100
   Atk: 100
-  Radius: 10
+  Radius: 0.5
   Sprite: {fileID: 21300000, guid: ae11b8c1efb9b8f4db19400081cf661e, type: 3}
