@@ -9,7 +9,8 @@ public class EnemysManager : MonoBehaviour
 {
     static public EnemysManager Instance;
 
-
+    [Tooltip("エネミーが湧く範囲")]
+    [SerializeField] Erea _spawnErea;
     [Tooltip("エネミーの限界量")]
     [SerializeField] int _maxEnemyAmount;
     [Tooltip("エネミーのステータスと出現率を入れる配列を時間分に入れる配列")]
