@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour , IObjectPool
 {
+    bool IsActive;
+
     Rigidbody2D _rb;
     SpriteRenderer _sr;
     CircleCollider2D _cc;
@@ -20,7 +22,10 @@ public class Enemy : MonoBehaviour , IObjectPool
 
     private void Update()
     {
-        Move();
+        if (IsActive)
+        {
+            Move();
+        }
     }
 
     /// <summary>
@@ -28,6 +33,8 @@ public class Enemy : MonoBehaviour , IObjectPool
     /// </summary>
     private void Move()
     {
+        Vector2 dir = (Player.Instance.transform.position - transform.position).normalized;
+        _rb.velocity = dir * _data.Speed;
     }
 
     /// <summary>
@@ -78,6 +85,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.enabled = false;
         _sr.enabled = false;
         _rb.Sleep();
+        IsActive = false;
     }
 
     public void Instantiate(Vector3 position)
@@ -90,6 +98,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.radius = _data.Radius;
         _sr.sprite = _data.Sprite;
         _hp = _data.HP;
+        IsActive = true;
     }
 
     public void Destroy()
@@ -97,6 +106,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.enabled = false;
         _sr.enabled = false;
         _rb.Sleep();
+        IsActive = false;
     }
 }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 interface IObjectPool
 {
+
     /// <summary>
     /// オブジェクトをプールするときに呼ぶ
     /// </summary>

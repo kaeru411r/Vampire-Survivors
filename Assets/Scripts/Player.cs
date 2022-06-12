@@ -6,7 +6,7 @@ using System.Linq;
 /// <summary>
 /// プレイヤーの操作、管理をするコンポーネント
 /// </summary>
-[RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public class Player : MonoBehaviour
 {
     static public Player Instance;
@@ -46,6 +46,10 @@ public class Player : MonoBehaviour
         _rb.velocity = dir * GameData.Instance.MoveSpeed;
     }
 
+    /// <summary>
+    /// プレイヤーの被弾関数
+    /// </summary>
+    /// <param name="damage"></param>
     public void Damage(float damage)
     {
         _hp -= damage;
@@ -56,6 +60,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// プレイヤーの被弾関数
+    /// </summary>
     void Death()
     {
         GameManager.Instance.AddPlayerDeathLog($"プレイヤーが死亡した");
