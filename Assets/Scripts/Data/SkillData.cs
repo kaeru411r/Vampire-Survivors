@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// スキルとそのIDを保存するクラス
 /// </summary>
-public class SkillData : MonoBehaviour
+public class SkillData
 {
     public SkillData(ISkill skill)
     {
