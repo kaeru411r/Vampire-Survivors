@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// プレイヤーの最大HPを上昇させる
 /// </summary>
-public class AddHp : ISkill
+public class AddHp : MonoBehaviour, ISkill
 {
     public SkillID ID => SkillID.AddHP;
 
@@ -19,8 +19,8 @@ public class AddHp : ISkill
     /// <summary>現在のスキルのレベル</summary>
     int _level;
 
-    /// <summary>レベルごとの上昇値</summary>
-    float[] _addTable = new float[]
+    [Tooltip("レベルごとの上昇値")]
+    [SerializeField] float[] _addTable = new float[]
     {
         10,
         20,

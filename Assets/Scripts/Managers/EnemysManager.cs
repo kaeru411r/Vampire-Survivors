@@ -45,7 +45,7 @@ public class EnemysManager : MonoBehaviour
     /// </summary>
     void EnemySetUp()
     {
-        for(int i = 0; i < _maxEnemyAmount; i++)
+        for (int i = 0; i < _maxEnemyAmount; i++)
         {
             Enemy e = Instantiate(_baseEnemy);
             e.SetUp();
@@ -59,18 +59,12 @@ public class EnemysManager : MonoBehaviour
     void EnemyGenerate()
     {
         int degree = Mathf.Min(_enemySpawnList.Count - 1, GameManager.Instance.Degree);
-        if (_enemySpawnTime > _enemySpawnList[degree].Time)
+        while (SpawnConditionCheck())
         {
             //Debug.Log();
-            if (_enemySpawnList[degree].MaxAmount > _activeEnemyList.Count)
-            {
-                if (_inactiveEnemyList.Count > 0)
-                {
-                    Debug.Log(3);
-                    EnemyInstantiate(Vector3.zero);
-                    _enemySpawnTime = 0;
-                }
-            }
+            Debug.Log(3);
+            EnemyInstantiate(Vector3.zero);
+            _enemySpawnTime -= _enemySpawnList[degree].Time;
         }
 
         _enemySpawnTime += Time.deltaTime;
@@ -85,6 +79,30 @@ public class EnemysManager : MonoBehaviour
         _inactiveEnemyList[0].Instantiate(position);
         _activeEnemyList.Add(_inactiveEnemyList[0]);
         _inactiveEnemyList.RemoveAt(0);
+    }
+
+    public void EnemyDestroy(Enemy enemy)
+    {
+        GameManager.Instance.AddEnemyDeathLog($"{name}が倒れた");
+        enemy.Destroy();
+        _activeEnemyList.Remove(enemy);
+        _inactiveEnemyList.Add(enemy);
+    }
+
+    bool SpawnConditionCheck()
+    {
+        int degree = Mathf.Min(_enemySpawnList.Count - 1, GameManager.Instance.Degree);
+        if (_enemySpawnTime > _enemySpawnList[degree].Time)
+        {
+            if (_inactiveEnemyList.Count > 0)
+            {
+                if (_enemySpawnList[degree].MaxAmount > _activeEnemyList.Count)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /// <summary>

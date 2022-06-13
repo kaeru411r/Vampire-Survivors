@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 
 /// <summary>
@@ -12,9 +13,12 @@ public class SkillManager : MonoBehaviour
 
     static public SkillManager Instance { get; private set; }
 
+    [SerializeField] List<SkillData> _allSkills;
+
+
     /// <summary>現在取得しているスキル</summary>
     public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
-    
+
     public ISkill[] AllSkills
     {
         get
@@ -23,13 +27,18 @@ public class SkillManager : MonoBehaviour
             {
                 AllSkillGet();
             }
-            return _allSkills.Values.ToArray();
+            ISkill[] buf = new ISkill[_allSkills.Count];
+            for(int i = 0; i < _allSkills.Count; i++)
+            {
+                buf[i] = _allSkills[i].Skill;
+            }
+            return buf;
         }
     }
 
 
     Dictionary<SkillID, ISkill> _skills = new Dictionary<SkillID, ISkill>();
-    Dictionary<SkillID, ISkill> _allSkills;
+    //[SerializeField] Dictionary<SkillID, ISkill> _allSkills;
 
 
     private void Awake()
@@ -119,7 +128,18 @@ public class SkillManager : MonoBehaviour
     /// <returns></returns>
     public ISkill GetSkill(int id)
     {
-        return GetSkill((SkillID)id);
+        if (_allSkills == null)
+        {
+            AllSkillGet();
+        }
+        switch ((SkillID)id)
+        {
+            case SkillID.AddHP:
+                return _allSkills[id].Skill;
+            default:
+                Debug.LogError($"Skill{id}は設定されていません");
+                return null;
+        }
     }
 
     /// <summary>
@@ -129,18 +149,7 @@ public class SkillManager : MonoBehaviour
     /// <returns></returns>
     public ISkill GetSkill(SkillID id)
     {
-        if(_allSkills == null)
-        {
-            AllSkillGet();
-        }
-        switch (id)
-        {
-            case SkillID.AddHP:
-                return _allSkills[id];
-            default:
-                Debug.LogError($"Skill{id}は設定されていません");
-                return null;
-        }
+        return GetSkill((SkillID)id);
     }
 
     ISkill SkillIDCheck(SkillID id, ISkill skill)
@@ -178,10 +187,6 @@ public class SkillManager : MonoBehaviour
     /// </summary>
     void AllSkillGet()
     {
-        if(_allSkills == null)
-        {
-            _allSkills = new Dictionary<SkillID, ISkill>();
-        }
-        _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
+        _allSkills.Add(new SkillData(SkillIDCheck(SkillID.AddHP, new AddHp())));
     }
 }

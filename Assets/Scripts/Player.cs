@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
     private void Move()
     {
         Vector2 dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        Debug.Log($"{dir}, {GameData.Instance.MoveSpeed}");
         _rb.velocity = dir * GameData.Instance.MoveSpeed;
     }
 
