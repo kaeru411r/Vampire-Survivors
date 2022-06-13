@@ -11,6 +11,8 @@ public class EnemysManager : MonoBehaviour
 
     [Tooltip("エネミーが湧く範囲")]
     [SerializeField] Erea _spawnErea;
+    [Tooltip("エネミーが湧く半径")]
+    [SerializeField] float _spawnRadius;
     [Tooltip("エネミーの限界量")]
     [SerializeField] int _maxEnemyAmount;
     [Tooltip("エネミーのステータスと出現率を入れる配列を時間分に入れる配列")]
@@ -63,7 +65,9 @@ public class EnemysManager : MonoBehaviour
         {
             //Debug.Log();
             Debug.Log(3);
-            EnemyInstantiate(Vector3.zero);
+            float t = Random.Range(0, Mathf.PI * 2);
+            Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
+            EnemyInstantiate(pos);
             _enemySpawnTime -= _enemySpawnList[degree].Time;
         }
 
@@ -83,7 +87,7 @@ public class EnemysManager : MonoBehaviour
 
     public void EnemyDestroy(Enemy enemy)
     {
-        GameManager.Instance.AddEnemyDeathLog($"{name}が倒れた");
+        GameManager.Instance.AddEnemyDeathLog($"{enemy.name}が倒れた");
         enemy.Destroy();
         _activeEnemyList.Remove(enemy);
         _inactiveEnemyList.Add(enemy);

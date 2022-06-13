@@ -81,35 +81,35 @@ public class Enemy : MonoBehaviour , IObjectPool
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
         _cc = GetComponent<CircleCollider2D>();
-        //_cc.enabled = false;
-        //_sr.enabled = false;
-        //_rb.Sleep();
+        _cc.enabled = false;
+        _sr.enabled = false;
+        _rb.Sleep();
         IsActive = false;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public void Instantiate(Vector3 position)
     {
         _data = EnemysManager.Instance.GetData(GameManager.Instance.Degree);
-        //_cc.enabled = true;
-        //_sr.enabled = true;
-        //_rb.WakeUp();
+        _cc.enabled = true;
+        _sr.enabled = true;
+        _rb.WakeUp();
 
         transform.position = position;
         _cc.radius = _data.Radius;
         _sr.sprite = _data.Sprite;
         _hp = _data.HP;
         IsActive = true;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public void Destroy()
     {
-        //_cc.enabled = false;
-        //_sr.enabled = false;
-        //_rb.Sleep();
+        _cc.enabled = false;
+        _sr.enabled = false;
+        _rb.Sleep();
         IsActive = false;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }
 
