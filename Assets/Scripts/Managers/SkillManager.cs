@@ -11,7 +11,7 @@ using System;
 public class SkillManager : MonoBehaviour
 {
 
-    static public SkillManager Instance { get; private set; }
+    static public SkillManager Instance;
 
     //Dictionary<SkillID, SkillData> _allSkills;
 
@@ -43,6 +43,7 @@ public class SkillManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        Instance = this;
         AllSkillGet();
     }
 
@@ -108,6 +109,7 @@ public class SkillManager : MonoBehaviour
             {
                 if (s != null)
                 {
+                    Debug.Log(1);
                     _skills.Add(id, s);
                     s.SetUp();
                 }
@@ -140,6 +142,8 @@ public class SkillManager : MonoBehaviour
         switch (id)
         {
             case SkillID.AddHP:
+                return _allSkills[id];
+            case SkillID.Gun:
                 return _allSkills[id];
             default:
                 Debug.LogError($"Skill{id}は設定されていません");
@@ -187,5 +191,6 @@ public class SkillManager : MonoBehaviour
             _allSkills = new Dictionary<SkillID, ISkill>();
         }
         _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
+        _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, new Gun()));
     }
 }

@@ -27,6 +27,9 @@ public class EnemysManager : MonoBehaviour
 
     float _enemySpawnTime;
 
+    /// <summary>有効なエネミーのリスト</summary>
+    public Enemy[] ActiveEnemyArray { get => _activeEnemyList.ToArray();}
+
     private void Awake()
     {
         Instance = this;
@@ -47,9 +50,11 @@ public class EnemysManager : MonoBehaviour
     /// </summary>
     void EnemySetUp()
     {
+        var root = new GameObject();
+        root.name = "Enemys";
         for (int i = 0; i < _maxEnemyAmount; i++)
         {
-            Enemy e = Instantiate(_baseEnemy);
+            Enemy e = Instantiate(_baseEnemy, root.transform);
             e.SetUp();
             _inactiveEnemyList.Add(e);
         }
@@ -63,8 +68,6 @@ public class EnemysManager : MonoBehaviour
         int degree = Mathf.Min(_enemySpawnList.Count - 1, GameManager.Instance.Degree);
         while (SpawnConditionCheck())
         {
-            //Debug.Log();
-            Debug.Log(3);
             float t = Random.Range(0, Mathf.PI * 2);
             Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
             EnemyInstantiate(pos);

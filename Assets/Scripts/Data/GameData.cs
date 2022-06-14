@@ -14,11 +14,9 @@ public class GameData
     public float BaseDef { get => _defBase; set => _defBase = value; }
     public float BaseMaxHP { get => _maxHPBase; set => _maxHPBase = value; }
     public float BaseRecovery { get => _recoveryBase; set => _recoveryBase = value; }
-    public float BaseCT { get => _coolTimeBase; set => _coolTimeBase = value; }
     public float BaseAttackArea { get => _attackAreaBase; set => _attackAreaBase = value; }
     public float BaseAttackSpeed { get => _attackSpeedBase; set => _attackSpeedBase = value; }
     public float BaseDuration { get => _durationBase; set => _durationBase = value; }
-    public float BaseAmount { get => _amountBase; set => _amountBase = value; }
     public float BaseMoveSpeed { get => _moveSpeedBase; set => _moveSpeedBase = value; }
     public float BaseCollectionArea { get => _collectionAreaBase; set => _collectionAreaBase = value; }
     public float BaseLuck { get => _luckBase; set => _luckBase = value; }
@@ -29,11 +27,9 @@ public class GameData
     public float DefFact { get => _defFact; set => _defFact = value; }
     public float MaxHPFact { get => _maxHPFact; set => _maxHPFact = value; }
     public float RecoveryFact { get => _recoveryFact; set => _recoveryFact = value; }
-    public float CoolTimeFact { get => _coolTimeFact; set => _coolTimeFact = value; }
     public float AttackAreaFact { get => _attackAreaFact; set => _attackAreaFact = value; }
     public float AttackSpeedFact { get => _attackSpeedFact; set => _attackSpeedFact = value; }
     public float DurationFact { get => _durationFact; set => _durationFact = value; }
-    public float AmountFact { get => _amountFact; set => _amountFact = value; }
     public float MoveSpeedFact { get => _moveSpeedFact; set => _moveSpeedFact = value; }
     public float CollectionAreaFact { get => _collectionAreaFact; set => _collectionAreaFact = value; }
     public float LuckFact { get => _luckFact; set => _luckFact = value; }
@@ -50,7 +46,7 @@ public class GameData
     /// <summary></summary>
     public float Recovery { get { return _recoveryBase * _recoveryFact; } }
     /// <summary></summary>
-    public float CoolTime { get { return _coolTimeBase * _coolTimeFact; } }
+    public float CoolTimeFact { get => _coolTimeFact; set => _coolTimeFact = value; }
     /// <summary></summary>
     public float AttackArea { get { return _attackAreaBase * _attackAreaFact; } }
     /// <summary></summary>
@@ -58,7 +54,7 @@ public class GameData
     /// <summary></summary>
     public float Duration { get { return _durationBase * _durationFact; } }
     /// <summary></summary>
-    public float Amount { get { return _amountBase * _amountFact; } }
+    public int Amount { get => _amountBase; set => _amountBase = value; }
     /// <summary></summary>
     public float MoveSpeed { get { return _moveSpeedBase * _moveSpeedFact; } }
     /// <summary></summary>
@@ -73,15 +69,13 @@ public class GameData
     /// <summary></summary>
     float _recoveryBase;
     /// <summary></summary>
-    float _coolTimeBase;
-    /// <summary></summary>
     float _attackAreaBase;
     /// <summary></summary>
     float _attackSpeedBase;
     /// <summary></summary>
     float _durationBase;
     /// <summary></summary>
-    float _amountBase;
+    int _amountBase;
     /// <summary></summary>
     float _moveSpeedBase;
     /// <summary></summary>
@@ -120,8 +114,6 @@ public class GameData
     float _attackSpeedFact = 1;
     /// <summary></summary>
     float _durationFact = 1;
-    /// <summary></summary>
-    float _amountFact = 1;
     /// <summary></summary>
     float _moveSpeedFact = 1;
     /// <summary></summary>

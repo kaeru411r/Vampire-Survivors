@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     {
         Vector2 dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         _rb.velocity = dir * GameData.Instance.MoveSpeed;
+        //transform.position += (Vector3)dir * GameData.Instance.MoveSpeed * Time.deltaTime;
     }
 
     /// <summary>

@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameObjectTest : MonoBehaviour
+public class SkkillTest : MonoBehaviour
 {
-    [SerializeField] Enemy enemy;
     // Start is called before the first frame update
     void Start()
     {
-        //enemy = Instantiate(enemy);
-        //enemy.SetUp();
-        //enemy.Instantiate(transform.position);
+        SkillManager.Instance.AddSkill(SkillID.Gun);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }
