@@ -143,6 +143,7 @@ public class SkillManager : MonoBehaviour
         {
             return _allSkills[id];
         }
+        Debug.LogError($"Skill{id}は設定されていません");
         return null;
     }
 
