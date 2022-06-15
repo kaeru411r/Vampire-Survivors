@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour, IObjectPool
 {
     /// <summary>生存可能時間</summary>
     float _lifeTime = 30f;
+    /// <summary>生存時間</summary>
+    float _time;
     /// <summary>基礎攻撃力</summary>
     float _atk;
     /// <summary>移動速度</summary>
@@ -42,6 +44,11 @@ public class Bullet : MonoBehaviour, IObjectPool
         if( _isActive)
         {
             transform.position += _dirction * _speed * Time.deltaTime;
+            _time -= Time.deltaTime;
+            if(_time <= 0)
+            {
+                Destroy();
+            }
         }
     }
 
@@ -79,6 +86,7 @@ public class Bullet : MonoBehaviour, IObjectPool
         _cc.isTrigger = true;
         _cc.enabled = false;
         _isActive = false;
+        _time = _lifeTime;
     }
 
     public void Instantiate(Vector3 position)
@@ -89,6 +97,7 @@ public class Bullet : MonoBehaviour, IObjectPool
         _sr.enabled = true;
         _cc.enabled = true;
         _frequencyPiercing = 1;
+        _time = _lifeTime;
     }
 
     public void Destroy()
