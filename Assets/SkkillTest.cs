@@ -8,7 +8,7 @@ public class SkkillTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SkillManager.Instance.AddSkill(SkillID.Gun);
+        SkillManager.Instance.AddSkill(SkillID.Homing);
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class SkkillTest : MonoBehaviour
             if (!isLevelUp)
             {
                 isLevelUp = true;
-                SkillManager.Instance.AddSkill(SkillID.Gun);
+                SkillManager.Instance.AddSkill(SkillID.Homing);
             }
         }
     }
