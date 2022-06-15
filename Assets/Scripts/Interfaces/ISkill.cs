@@ -31,6 +31,7 @@ public enum SkillID
 {
     Gun = 0,
     AddHP = 1,
+    Homing = 2,
 }
 
 public enum SkillType

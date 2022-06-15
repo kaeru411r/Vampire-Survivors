@@ -39,7 +39,7 @@ public class Gun : ISkill
     /// <summary>発射後経過時間</summary>
     float _time;
 
-    GunData[] _levelDataArray =
+    GunData[] _levelTable =
     {
         new GunData(1, 30, 1, 1),
         new GunData(2, 30, 2, 1),
@@ -73,14 +73,14 @@ public class Gun : ISkill
 
     void StatusSet()
     {
-        if(_level < _levelDataArray.Length)
+        if(_level < _levelTable.Length)
         {
-            _amount = _levelDataArray[_level].Amount;
-            _atk = _levelDataArray[_level].Atk;
-            _coolTime = _levelDataArray[_level].CoolTime;
-            _speed = _levelDataArray[_level].Speed;
+            _amount = _levelTable[_level].Amount;
+            _atk = _levelTable[_level].Atk;
+            _coolTime = _levelTable[_level].CoolTime;
+            _speed = _levelTable[_level].Speed;
             _level++;
-            if(_level == _levelDataArray.Length)
+            if(_level == _levelTable.Length)
             {
                 _isLevelMax = true;
             }

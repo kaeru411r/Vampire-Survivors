@@ -192,5 +192,6 @@ public class SkillManager : MonoBehaviour
         }
         _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
         _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, Gun.Instance));
+        _allSkills.Add(SkillID.Homing, SkillIDCheck(SkillID.Homing, Horming.Instance));
     }
 }
