@@ -5,8 +5,12 @@ using UnityEngine;
 /// <summary>
 /// プレイヤーの最大HPを上昇させる
 /// </summary>
-public class AddHp : MonoBehaviour, ISkill
+public class AddHp : ISkill
 {
+    static AddHp instance = new AddHp();
+    private AddHp() { }
+    public static AddHp Instance { get { return instance; } }
+
     public SkillID ID => SkillID.AddHP;
 
     public SkillType Type => SkillType.Passive;

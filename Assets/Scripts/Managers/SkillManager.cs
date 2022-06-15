@@ -179,6 +179,7 @@ public class SkillManager : MonoBehaviour
 
     /// <summary>
     /// 全てのスキルを取得する
+    /// 新スキルを実装する際はここで追加する
     /// </summary>
     void AllSkillGet()
     {
@@ -186,7 +187,7 @@ public class SkillManager : MonoBehaviour
         {
             _allSkills = new Dictionary<SkillID, ISkill>();
         }
-        _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
+        _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, AddHp.Instance));
         _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, Gun.Instance));
         _allSkills.Add(SkillID.Homing, SkillIDCheck(SkillID.Homing, Horming.Instance));
     }
