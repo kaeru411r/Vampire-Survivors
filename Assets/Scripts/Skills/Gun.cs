@@ -5,6 +5,10 @@ using System.Linq;
 
 public class Gun : ISkill
 {
+    //static Gun instance = new Gun();
+    //private Gun() { }
+    //public static Gun Instance { get { return instance; } }
+
     public SkillID ID => SkillID.Gun;
 
     public SkillType Type => SkillType.Active;
@@ -111,6 +115,12 @@ public class Gun : ISkill
             _time -= ct;
         }
     }
+
+    public void BulletDestroy(Bullet bullet)
+    {
+
+    }
+
 }
 
 /// <summary>

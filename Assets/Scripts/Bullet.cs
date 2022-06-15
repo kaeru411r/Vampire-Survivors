@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour, IObjectPool
     /// <summary>移動速度</summary>
     float _speed;
     /// <summary>貫通可能回数</summary>
-    int _frequencyPiercing;
+    int _frequencyPiercing = 1;
     /// <summary>飛翔方向</summary>
     Vector3 _dirction;
     /// <summary>ヒットしたエネミーのリスト</summary>
@@ -72,8 +72,11 @@ public class Bullet : MonoBehaviour, IObjectPool
         _rb = GetComponent<Rigidbody2D>();
         _cc = GetComponent<CircleCollider2D>();
         _sr = GetComponent<SpriteRenderer>();
+        _rb.gravityScale = 0;
+        _rb.freezeRotation = true;
         _rb.Sleep();
         _sr.enabled = false;
+        _cc.isTrigger = true;
         _cc.enabled = false;
         _isActive = false;
     }
@@ -93,5 +96,27 @@ public class Bullet : MonoBehaviour, IObjectPool
         _sr.enabled = false;
         _cc.enabled = false;
         _isActive = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject != Player.Instance.gameObject)
+        {
+            if (_frequencyPiercing > 0)
+            {
+                Enemy e = collision.GetComponent<Enemy>();
+                if (e && !_hitEnemyList.Contains(e))
+                {
+                    Debug.Log(123);
+                    e.Damage((_atk + GameData.Instance.BaseAtk) * GameData.Instance.AtkFact);
+                    _hitEnemyList.Add(e);
+                }
+                _frequencyPiercing--;
+                //if(_frequencyPiercing == 0)
+                //{
+                //    Destroy();
+                //}
+            }
+        }
     }
 }
