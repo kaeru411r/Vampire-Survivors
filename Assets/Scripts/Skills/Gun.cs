@@ -23,7 +23,7 @@ public class Gun : ISkill
     bool _isLevelMax = false;
 
     /// <summary>現在のスキルのレベル</summary>
-    int _level;
+    int _level = 0;
     /// <summary>だす弾の基礎値</summary>
     int _amount;
     /// <summary>弾のダメージ</summary>
@@ -35,45 +35,27 @@ public class Gun : ISkill
     /// <summary>発射後経過時間</summary>
     float _time;
 
+    GunData[] _levelDataArray =
+    {
+        new GunData(1, 30, 1, 1),
+        new GunData(2, 30, 2, 1),
+    };
+
 
     public void Delete()
     {
-        _amount = 1;
-        _atk = 30;
-        _coolTime = 1;
         _isLevelMax = false;
         _level = 0;
     }
 
     public void LevelUp()
     {
-        switch (_level)
-        {
-            case 0:
-                _level++;
-                _atk += 30;
-                break;
-            case 1:
-                _level++;
-                _amount += 1;
-                break;
-            case 2:
-                _level++;
-                _coolTime -= 0.5f;
-                break;
-            default:
-                break;
-        }
+        StatusSet();
     }
 
     public void SetUp()
     {
-        _amount = 1;
-        _atk = 30;
-        _coolTime = 1;
-        _speed = 2;
-        _isLevelMax = false;
-        _level = 0;
+        StatusSet();
         Bullet bullet = Resources.Load<Bullet>(_bulletName);
         GameObject root = new GameObject();
         root.name = "Bullets";
@@ -82,6 +64,22 @@ public class Gun : ISkill
             Bullet b = Object.Instantiate(bullet, root.transform);
             b.SetUp();
             _inactiveBullets.Add(b);
+        }
+    }
+
+    void StatusSet()
+    {
+        if(_level < _levelDataArray.Length)
+        {
+            _amount = _levelDataArray[_level].Amount;
+            _atk = _levelDataArray[_level].Atk;
+            _coolTime = _levelDataArray[_level].CoolTime;
+            _speed = _levelDataArray[_level].Speed;
+            _level++;
+            if(_level == _levelDataArray.Length)
+            {
+                _isLevelMax = true;
+            }
         }
     }
 
@@ -113,4 +111,26 @@ public class Gun : ISkill
             _time -= ct;
         }
     }
+}
+
+/// <summary>
+/// Gunのスペック
+/// </summary>
+public struct GunData
+{
+    public GunData(int amount, float atk, float speed, float coolTime)
+    {
+        Amount = amount;
+        Atk = atk;
+        Speed = speed;
+        CoolTime = coolTime;
+    }
+    /// <summary>だす弾の基礎値</summary>
+    public int Amount;
+    /// <summary>弾のダメージ</summary>
+    public float Atk;
+    /// <summary>弾のスピード</summary>
+    public float Speed;
+    /// <summary>クールタイムの基礎値</summary>
+    public float CoolTime;
 }

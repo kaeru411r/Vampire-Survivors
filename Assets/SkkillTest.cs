@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkkillTest : MonoBehaviour
 {
+    bool isLevelUp;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,13 @@ public class SkkillTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Time.time > 10)
+        {
+            if (!isLevelUp)
+            {
+                isLevelUp = true;
+                SkillManager.Instance.AddSkill(SkillID.Gun);
+            }
+        }
     }
 }
