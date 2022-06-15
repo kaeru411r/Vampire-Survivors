@@ -38,7 +38,7 @@ public class SkillManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
@@ -54,7 +54,7 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        foreach(var skill in Skills)
+        foreach (var skill in Skills)
         {
             skill.Update();
         }
@@ -81,7 +81,7 @@ public class SkillManager : MonoBehaviour
         {
             var s = GetSkill(id);
             {
-                if(s != null)
+                if (s != null)
                 {
                     _skills.Add(sId, s);
                     s.SetUp();
@@ -139,16 +139,11 @@ public class SkillManager : MonoBehaviour
         {
             AllSkillGet();
         }
-        switch (id)
+        if (_allSkills.ContainsKey(id))
         {
-            case SkillID.AddHP:
-                return _allSkills[id];
-            case SkillID.Gun:
-                return _allSkills[id];
-            default:
-                Debug.LogError($"Skill{id}は設定されていません");
-                return null;
+            return _allSkills[id];
         }
+        return null;
     }
 
     ISkill SkillIDCheck(SkillID id, ISkill skill)
