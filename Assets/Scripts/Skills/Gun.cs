@@ -5,9 +5,9 @@ using System.Linq;
 
 public class Gun : ISkill
 {
-    //static Gun instance = new Gun();
-    //private Gun() { }
-    //public static Gun Instance { get { return instance; } }
+    static Gun instance = new Gun();
+    private Gun() { }
+    public static Gun Instance { get { return instance; } }
 
     public SkillID ID => SkillID.Gun;
 
@@ -103,8 +103,7 @@ public class Gun : ISkill
                 {
                     if (_inactiveBullets.Count == 0)
                     {
-                        _inactiveBullets.Add(_activeBullets[0]);
-                        _activeBullets.RemoveAt(0);
+                        BulletDestroy(_activeBullets[0]);
                     }
                     _inactiveBullets[0].Instantiate(pos);
                     _inactiveBullets[0].Fire((es[i].transform.position - pos).normalized, _atk, _speed);
@@ -118,7 +117,8 @@ public class Gun : ISkill
 
     public void BulletDestroy(Bullet bullet)
     {
-
+        _activeBullets.Remove(bullet);
+        _inactiveBullets.Add(bullet);
     }
 
 }

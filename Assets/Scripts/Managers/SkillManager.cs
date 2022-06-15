@@ -191,6 +191,6 @@ public class SkillManager : MonoBehaviour
             _allSkills = new Dictionary<SkillID, ISkill>();
         }
         _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, new AddHp()));
-        _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, new Gun()));
+        _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, Gun.Instance));
     }
 }
