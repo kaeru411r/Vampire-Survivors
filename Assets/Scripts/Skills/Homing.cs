@@ -24,7 +24,7 @@ public class Horming : ISkill
     bool _isLevelMax;
     /// <summary>飛ばす弾のプレハブの名前</summary>
     const string _bulletName = "HomingBullet";
-    const int _maxAmount = 100;
+    const int _maxAmount = 1000;
     /// <summary>飛ばす弾のオブジェクトプール</summary>
     List<HomingBullet> _inactiveBullets = new List<HomingBullet>();
     /// <summary>飛んでる弾のオブジェクトプール</summary>
@@ -49,13 +49,14 @@ public class Horming : ISkill
 
     HomingData[] _levelTable =
     {
-        new HomingData(10, 30, 20, 3, 2f, 1),
-        new HomingData(20, 30, 20, 3, 2f, 1),
+        new HomingData(10, 100, 20, 1, 2f, 1),
+        //new HomingData(10, 1000, 20, 0.05f, 2f, 1.5f),
     };
 
     public void Delete()
     {
-        throw new System.NotImplementedException();
+        _level = 0;
+        _isLevelMax = false;
     }
 
     public void LevelUp()
@@ -70,6 +71,10 @@ public class Horming : ISkill
     public void SetUp()
     {
         _level = 0;
+        if (_level == _levelTable.Length - 1)
+        {
+            _isLevelMax = true;
+        }
         _time = _levelTable[_level].CoolTime;
         HomingBullet bullet = Resources.Load<HomingBullet>(_bulletName);
         GameObject root = new GameObject();
@@ -105,7 +110,7 @@ public class Horming : ISkill
             if (es.Length > 0)
             {
                 Vector3 pos = Player.Instance.transform.position;
-                es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
+                es = es.OrderBy(e => Random.value).ToArray();
                 for (int i1 = 0, i2 = 0; i1 < _levelTable[_level].Amount + GameData.Instance.Amount; i1++, i2++)
                 {
                     if (!(es.Length > i2))
