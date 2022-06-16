@@ -7,7 +7,7 @@ using System;
 /// <summary>
 /// 自動追尾弾の制御コンポーネント
 /// </summary>
-[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D), typeof(TrailRenderer))]
 public class HomingBullet : MonoBehaviour, IObjectPool
 {
 
@@ -33,6 +33,8 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     Rigidbody2D _rb;
     /// <summary>スプライトレンダラー</summary>
     SpriteRenderer _sr;
+    /// <summary>トレイルレンダラー</summary>
+    TrailRenderer _tr;
 
     public bool IsActive { get => _isActive;}
 
@@ -40,6 +42,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     {
         _rb.Sleep();
         _sr.enabled = false;
+        _tr.enabled = false;
         _isActive = false;
     }
 
@@ -49,6 +52,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
         transform.position = position;
         _rb.WakeUp();
         _sr.enabled = true;
+        _tr.enabled = true;
         _time = _lifeTime;
     }
 
@@ -56,10 +60,12 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
+        _tr = GetComponent<TrailRenderer>();
         _rb.gravityScale = 0;
         _rb.freezeRotation = true;
         _rb.Sleep();
         _sr.enabled = false;
+        _tr.enabled = false;
         _isActive = false;
         _time = _lifeTime;
     }
