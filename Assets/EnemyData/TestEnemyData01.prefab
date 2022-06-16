@@ -49,4 +49,8 @@ MonoBehaviour:
   Atk: 100
   Radius: 0.1
   Sprite: {fileID: 21300000, guid: ae11b8c1efb9b8f4db19400081cf661e, type: 3}
-  Exp: 1
+  ExpTable:
+  - Exp: 0
+    Probability: 50
+  - Exp: 1
+    Probability: 50
