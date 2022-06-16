@@ -49,8 +49,8 @@ public class Horming : ISkill
 
     HomingData[] _levelTable =
     {
-        new HomingData(1, 30, 20, 3, 1.5f, 1),
-        new HomingData(2, 30, 20, 3, 1.5f, 1),
+        new HomingData(10, 30, 20, 3, 2f, 1),
+        new HomingData(20, 30, 20, 3, 2f, 1),
     };
 
     public void Delete()
@@ -61,7 +61,7 @@ public class Horming : ISkill
     public void LevelUp()
     {
         StatusSet();
-        if(_time < _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact)
+        if (_time < _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact)
         {
             _time = _levelTable[_level].CoolTime;
         }
@@ -96,18 +96,22 @@ public class Horming : ISkill
 
     public void Update()
     {
+        NullCheck();
         _time += Time.deltaTime;
         float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
         if (_time > ct)
         {
             Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
-            Debug.Log("撃った");
-            Vector3 pos = Player.Instance.transform.position;
-            es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-            for (int i = 0; i < _levelTable[_level].Amount + GameData.Instance.Amount; i++)
+            if (es.Length > 0)
             {
-                if (es.Length > i)
+                Vector3 pos = Player.Instance.transform.position;
+                es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
+                for (int i1 = 0, i2 = 0; i1 < _levelTable[_level].Amount + GameData.Instance.Amount; i1++, i2++)
                 {
+                    if (!(es.Length > i2))
+                    {
+                        i2 = 0;
+                    }
                     if (_inactiveBullets.Count == 0)
                     {
                         BulletDestroy(_activeBullets[0]);
@@ -115,19 +119,32 @@ public class Horming : ISkill
                     _inactiveBullets[0].Instantiate(pos);
                     float t = Random.Range(0, Mathf.PI * 2);
                     Vector2 dir = new Vector2(Mathf.Sin(t), Mathf.Cos(t));
-                    _inactiveBullets[0].Fire(es[i], dir, _levelTable[_level]);
+                    _inactiveBullets[0].Fire(es[i2], dir, _levelTable[_level]);
                     _activeBullets.Add(_inactiveBullets[0]);
                     _inactiveBullets.RemoveAt(0);
                 }
             }
             _time -= ct;
         }
-    } 
+    }
 
     public void BulletDestroy(HomingBullet bullet)
     {
         _activeBullets.Remove(bullet);
         _inactiveBullets.Add(bullet);
+    }
+
+    void NullCheck()
+    {
+        for (int i = 0; i < _activeBullets.Count; i++)
+        {
+            if (!_activeBullets[i].IsActive)
+            {
+                _inactiveBullets.Add(_activeBullets[i]);
+                _activeBullets.RemoveAt(i);
+                i--;
+            }
+        }
     }
 }
 

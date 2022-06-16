@@ -7,14 +7,14 @@ using System;
 /// <summary>
 /// 自動追尾弾の制御コンポーネント
 /// </summary>
-[RequireComponent(typeof(CircleCollider2D), typeof(SpriteRenderer), typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D))]
 public class HomingBullet : MonoBehaviour, IObjectPool
 {
 
     /// <summary>オブジェクトが有効か</summary>
     bool _isActive;
     /// <summary>生存可能時間</summary>
-    float _lifeTime = 30f;
+    float _lifeTime = 10f;
     /// <summary>生存時間</summary>
     float _time;
     /// <summary>基礎攻撃力</summary>
@@ -31,16 +31,15 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     Vector3 _dirction;
     /// <summary>リジットボディ</summary>
     Rigidbody2D _rb;
-    /// <summary>コライダー</summary>
-    CircleCollider2D _cc;
     /// <summary>スプライトレンダラー</summary>
     SpriteRenderer _sr;
+
+    public bool IsActive { get => _isActive;}
 
     public void Destroy()
     {
         _rb.Sleep();
         _sr.enabled = false;
-        _cc.enabled = false;
         _isActive = false;
     }
 
@@ -50,21 +49,17 @@ public class HomingBullet : MonoBehaviour, IObjectPool
         transform.position = position;
         _rb.WakeUp();
         _sr.enabled = true;
-        _cc.enabled = true;
         _time = _lifeTime;
     }
 
     public void SetUp()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _cc = GetComponent<CircleCollider2D>();
         _sr = GetComponent<SpriteRenderer>();
         _rb.gravityScale = 0;
         _rb.freezeRotation = true;
         _rb.Sleep();
         _sr.enabled = false;
-        _cc.isTrigger = true;
-        _cc.enabled = false;
         _isActive = false;
         _time = _lifeTime;
     }
@@ -85,7 +80,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
         {
             if (!_target.IsActive)
             {
-                Destroy();
+                Burst();
                 return;
             }
             Vector3 cor = (_target.transform.position - transform.position) * _correctionStrength * Time.deltaTime;
@@ -93,12 +88,12 @@ public class HomingBullet : MonoBehaviour, IObjectPool
             transform.position += _dirction * _speed * Time.deltaTime;
             if(Vector2.Distance(_target.transform.position, transform.position) <= _radius)
             {
-                Hit();
+                Burst();
             }
             _time -= Time.deltaTime;
             if (_time <= 0)
             {
-                Destroy();
+                Burst();
             }
         }
     }
@@ -106,27 +101,11 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     /// <summary>
     /// 着弾
     /// </summary>
-    void Hit()
+    void Burst()
     {
         Enemy[] es = EnemysManager.Instance.ActiveEnemyArray.
             Where(e => Vector2.Distance(e.transform.position, transform.position) <= _radius).ToArray();
         Array.ForEach(es, e => e.Damage((_atk + GameData.Instance.BaseAtk) * GameData.Instance.AtkFact));
         Destroy();
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject != Player.Instance.gameObject)
-    //    {
-    //        Debug.Log(collision);
-    //        Enemy e = collision.GetComponent<Enemy>();
-    //        if (e)
-    //        {
-    //            e.Damage((_atk + GameData.Instance.BaseAtk) * GameData.Instance.AtkFact);
-    //            Debug.Log("destroy");
-    //            //Gun.Instance.BulletDestroy(this);
-    //            Destroy();
-    //        }
-    //    }
-    //}
 }
