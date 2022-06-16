@@ -42,7 +42,7 @@ public class Gun : ISkill
     GunData[] _levelTable =
     {
         new GunData(1, 30, 1, 1),
-        new GunData(2, 30, 2, 1),
+        new GunData(100, 100, 2, 1),
     };
 
 
@@ -73,14 +73,14 @@ public class Gun : ISkill
 
     void StatusSet()
     {
-        if(_level < _levelTable.Length)
+        if (_level < _levelTable.Length)
         {
             _amount = _levelTable[_level].Amount;
             _atk = _levelTable[_level].Atk;
             _coolTime = _levelTable[_level].CoolTime;
             _speed = _levelTable[_level].Speed;
             _level++;
-            if(_level == _levelTable.Length)
+            if (_level == _levelTable.Length)
             {
                 _isLevelMax = true;
             }
@@ -97,19 +97,21 @@ public class Gun : ISkill
             Debug.Log("撃った");
             Vector3 pos = Player.Instance.transform.position;
             es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-            for (int i = 0; i < _amount + GameData.Instance.Amount; i++)
+            for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
             {
-                if (es.Length > i)
+                if (!(es.Length > i2))
                 {
-                    if (_inactiveBullets.Count == 0)
-                    {
-                        BulletDestroy(_activeBullets[0]);
-                    }
-                    _inactiveBullets[0].Instantiate(pos);
-                    _inactiveBullets[0].Fire((es[i].transform.position - pos).normalized, _atk, _speed);
-                    _activeBullets.Add(_inactiveBullets[0]);
-                    _inactiveBullets.RemoveAt(0);
+                    i2 = 0;
                 }
+                if (_inactiveBullets.Count == 0)
+                {
+                    BulletDestroy(_activeBullets[0]);
+                }
+                _inactiveBullets[0].Instantiate(pos);
+                _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
+                _activeBullets.Add(_inactiveBullets[0]);
+                _inactiveBullets.RemoveAt(0);
+
             }
             _time -= ct;
         }

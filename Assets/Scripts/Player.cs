@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     float _hp;
     /// <summary>リジットボディ</summary>
     Rigidbody2D _rb;
+    string _expTag = "Exp";
 
     /// <summary>現在のプレイヤーのHP</summary>
     public float Hp { get => _hp; set => _hp = value; }
@@ -66,5 +67,25 @@ public class Player : MonoBehaviour
     void Death()
     {
         GameManager.Instance.AddPlayerDeathLog($"プレイヤーが死亡した");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag(_expTag))
+        {
+            Exp e = collision.gameObject.GetComponent<Exp>();
+            if (e)
+            {
+                int exp = (int)(e.Point * GameData.Instance.ExpFact);
+                for (; exp > 0; exp--)
+                {
+                    if (GameData.Instance.AddExp(1))
+                    {
+                        Debug.Log("レベルアップ");
+                    }
+                }
+                e.Destroy();
+            }
+        }
     }
 }

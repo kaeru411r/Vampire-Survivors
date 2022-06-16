@@ -20,7 +20,6 @@ public class SetActiveTest : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            EnemysManager.Instance.EnemyDestroy(collision.GetComponent<Enemy>());
         }
     }
 }

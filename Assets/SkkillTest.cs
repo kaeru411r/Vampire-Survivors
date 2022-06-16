@@ -9,6 +9,7 @@ public class SkkillTest : MonoBehaviour
     void Start()
     {
         SkillManager.Instance.AddSkill(SkillID.Homing);
+        SkillManager.Instance.AddSkill(SkillID.Gun);
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class SkkillTest : MonoBehaviour
             {
                 isLevelUp = true;
                 SkillManager.Instance.AddSkill(SkillID.Homing);
+                SkillManager.Instance.AddSkill(SkillID.Gun);
             }
         }
     }

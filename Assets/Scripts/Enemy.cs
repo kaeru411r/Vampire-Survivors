@@ -4,8 +4,18 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
-public class Enemy : MonoBehaviour , IObjectPool
+public class Enemy : MonoBehaviour, IObjectPool
 {
+    [Tooltip("経験値のプレハブ")]
+    [SerializeField] Exp _baseExp;
+    [Tooltip("経験値のオブジェクト量")]
+    [SerializeField] int _maxExpAmount = 1000;
+
+    /// <summary>有効なエネミーのリスト</summary>
+    static List<Exp> _activeExpList = new List<Exp>();
+    /// <summary>無効なエネミーのリスト</summary>
+    static List<Exp> _inactiveExpList = new List<Exp>();
+
     bool isActive;
 
     Rigidbody2D _rb;
@@ -15,10 +25,39 @@ public class Enemy : MonoBehaviour , IObjectPool
     EnemyData _data;
     float _hp;
 
-    public bool IsActive { get => isActive;}
+    public bool IsActive { get => isActive; }
+
+    static void ExpActiveCheck()
+    {
+        for(int i = 0; i < _activeExpList.Count; i++)
+        {
+            if (!_activeExpList[i].IsActive)
+            {
+                _inactiveExpList.Add(_activeExpList[i]);
+                _activeExpList.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
+    void ExpsSetUp()
+    {
+        var root = new GameObject();
+        root.name = "Exps";
+        for (int i = 0; i < _maxExpAmount; i++)
+        {
+            Exp e = Instantiate(_baseExp, root.transform);
+            e.SetUp();
+            _inactiveExpList.Add(e);
+        }
+    }
 
     private void Start()
     {
+        if (_activeExpList.Count + _inactiveExpList.Count <= 0)
+        {
+            ExpsSetUp();
+        }
     }
 
     private void Update()
@@ -57,7 +96,20 @@ public class Enemy : MonoBehaviour , IObjectPool
     /// </summary>
     public void Death()
     {
-        EnemysManager.Instance.EnemyDestroy(this);
+        ExpActiveCheck();
+        Destroy();
+        GameManager.Instance.AddEnemyDeathLog($"{name}が倒れた");
+        if(_inactiveExpList.Count > 0)
+        {
+            _inactiveExpList[0].Instantiate(transform.position);
+            _inactiveExpList[0].Set(_data.Exp);
+            _activeExpList.Add(_inactiveExpList[0]);
+            _inactiveExpList.RemoveAt(0);
+        }
+        else
+        {
+            _activeExpList[0].Set(_data.Exp + _activeExpList[0].Point);
+        }
     }
 
 

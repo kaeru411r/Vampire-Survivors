@@ -65,6 +65,7 @@ public class EnemysManager : MonoBehaviour
     /// </summary>
     void EnemyGenerate()
     {
+        ActiveCheck();
         int degree = Mathf.Min(_enemySpawnList.Count - 1, GameManager.Instance.Degree);
         while (SpawnConditionCheck())
         {
@@ -75,6 +76,19 @@ public class EnemysManager : MonoBehaviour
         }
 
         _enemySpawnTime += Time.deltaTime;
+    }
+
+    void ActiveCheck()
+    {
+        for(int i = 0; i < _activeEnemyList.Count; i++)
+        {
+            if (!_activeEnemyList[i].IsActive)
+            {
+                _inactiveEnemyList.Add(_activeEnemyList[i]);
+                _activeEnemyList.Remove(_activeEnemyList[i]);
+                i--;
+            }
+        }
     }
 
     /// <summary>
@@ -90,10 +104,6 @@ public class EnemysManager : MonoBehaviour
 
     public void EnemyDestroy(Enemy enemy)
     {
-        GameManager.Instance.AddEnemyDeathLog($"{enemy.name}が倒れた");
-        enemy.Destroy();
-        _activeEnemyList.Remove(enemy);
-        _inactiveEnemyList.Add(enemy);
     }
 
     bool SpawnConditionCheck()

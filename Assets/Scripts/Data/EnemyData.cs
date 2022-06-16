@@ -11,4 +11,5 @@ public class EnemyData : MonoBehaviour
     public float Atk;
     public float Radius;
     public Sprite Sprite;
+    public float Exp;
 }

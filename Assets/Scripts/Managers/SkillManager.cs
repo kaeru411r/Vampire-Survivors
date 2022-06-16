@@ -125,7 +125,7 @@ public class SkillManager : MonoBehaviour
     /// <returns></returns>
     public ISkill GetSkill(int id)
     {
-        return GetSkill(id);
+        return GetSkill((SkillID)id);
     }
 
     /// <summary>

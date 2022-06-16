@@ -8,6 +8,21 @@ public class GameData
     private GameData() { }
     static public GameData Instance => _instance;
 
+    /// <summary>レベルテーブル</summary>
+    float[] _levelTable =
+    {
+        3,
+        5,
+        7,
+        10,
+        13,
+        15,
+        20,
+        25,
+        30,
+
+    };
+
 
     //基礎
     public float BaseAtk { get => _atkBase; set => _atkBase = value; }
@@ -60,6 +75,8 @@ public class GameData
     /// <summary></summary>
     public float CollectionArea { get { return _collectionAreaBase * _collectionAreaFact; } }
 
+    public float Exp { get => _exp;}
+
     /// <summary></summary>
     float _atkBase;
     /// <summary></summary>
@@ -99,6 +116,7 @@ public class GameData
     ///// <summary></summary>
     //float _base;
 
+    float _expFact = 1;
     float _atkFact = 1;
     /// <summary></summary>
     float _defFact = 1;
@@ -122,4 +140,30 @@ public class GameData
     float _luckFact = 1;
     /// <summary></summary>
     float _difficultyFact = 1;
+
+    float _exp;
+
+    /// <summary>
+    /// 経験値取得
+    /// </summary>
+    /// <param name="exp"></param>
+    /// <returns>レベルアップしたらtrue</returns>
+    public bool AddExp(float exp)
+    {
+        _exp += exp;
+
+        if(_needExp < _exp)
+        {
+            _needExp += _needExp * _needExpFact;
+            return true;
+        }
+        return false;
+    }
+
+    int _level = 1;
+    int Level { get => _level; }
+    public float ExpFact { get => _expFact; set => _expFact = value; }
+
+    float _needExp;
+    float _needExpFact = 1.03f;
 }

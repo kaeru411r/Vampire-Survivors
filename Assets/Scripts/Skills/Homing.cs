@@ -49,7 +49,7 @@ public class Horming : ISkill
 
     HomingData[] _levelTable =
     {
-        new HomingData(10, 100, 20, 1, 2f, 1),
+        new HomingData(100, 100, 20, 0.5f, 2f, 1f),
         //new HomingData(10, 1000, 20, 0.05f, 2f, 1.5f),
     };
 
@@ -70,11 +70,8 @@ public class Horming : ISkill
 
     public void SetUp()
     {
-        _level = 0;
-        if (_level == _levelTable.Length - 1)
-        {
-            _isLevelMax = true;
-        }
+        _level = -1;
+        StatusSet();
         _time = _levelTable[_level].CoolTime;
         HomingBullet bullet = Resources.Load<HomingBullet>(_bulletName);
         GameObject root = new GameObject();
