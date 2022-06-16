@@ -47,7 +47,6 @@ public class Gun : ISkill
         new GunData(100, 100, 2, 1),
     };
 
-
     public void Delete()
     {
         _isLevelMax = false;
@@ -100,26 +99,29 @@ public class Gun : ISkill
             if (_time > ct)
             {
                 Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
-                Debug.Log("撃った");
-                Vector3 pos = Player.Instance.transform.position;
-                es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-                for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
+                if (es.Length > 0)
                 {
-                    if (!(es.Length > i2))
+                    Debug.Log("撃った");
+                    Vector3 pos = Player.Instance.transform.position;
+                    es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
+                    for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
                     {
-                        i2 = 0;
-                    }
-                    if (_inactiveBullets.Count == 0)
-                    {
-                        BulletDestroy(_activeBullets[0]);
-                    }
-                    _inactiveBullets[0].Instantiate(pos);
-                    _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
-                    _activeBullets.Add(_inactiveBullets[0]);
-                    _inactiveBullets.RemoveAt(0);
+                        if (!(es.Length > i2))
+                        {
+                            i2 = 0;
+                        }
+                        if (_inactiveBullets.Count == 0)
+                        {
+                            BulletDestroy(_activeBullets[0]);
+                        }
+                        _inactiveBullets[0].Instantiate(pos);
+                        _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
+                        _activeBullets.Add(_inactiveBullets[0]);
+                        _inactiveBullets.RemoveAt(0);
 
+                    }
+                    _time -= ct;
                 }
-                _time -= ct;
             }
         }
     }

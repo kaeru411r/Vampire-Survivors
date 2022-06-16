@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// エネミーのステータスを統括管理するクラス
@@ -42,6 +43,11 @@ public class EnemysManager : MonoBehaviour
         EnemySetUp();
         GameManager.Instance.OnPause += OnPause;
         GameManager.Instance.OnResume += OnResume;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
     }
 
     private void Update()
@@ -138,15 +144,7 @@ public class EnemysManager : MonoBehaviour
     {
         NullCheck();
         var data = _enemySpawnList[Mathf.Min(degree, _enemySpawnList.Count - 1)];
-        if (data.EnemySpawnsList.Count == 0)
-        {
-            _enemySpawnList.Remove(data);
-        }
-        int all = 0;
-        foreach (var e in data.EnemySpawnsList)
-        {
-            all += e.Probability;
-        }
+        int all = data.EnemySpawnsList.Sum(e => e.Probability);
         int num = Random.Range(0, all);
         for (int i = 0; i < data.EnemySpawnsList.Count; i++)
         {

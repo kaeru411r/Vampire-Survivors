@@ -20,31 +20,55 @@ public class GameManager : MonoBehaviour
     StringBuilder _playerDeathLog = new StringBuilder();
     /// <summary>現在のプレイ時間(秒)</summary>
     float _playTime;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
+    /// <summary>今プレイ中か否か</summary>
+    bool _isPlay;
 
     public System.Action OnPause;
     public System.Action OnResume;
 
 
     /// <summary>ゲームの進行段階</summary>
-    public int Degree { get { return (int)Mathf.Floor(_playTime * 60); }}
+    public int Degree { get { return (int)Mathf.Floor(_playTime / 60); }}
     /// <summary>ゲームの終了までの時間(分)</summary>
     public int GameTime { get => _gameTime; set => _gameTime = value; }
+    public float PlayTime { get => _playTime;}
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            return;
+        }
+        Destroy(gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!_isPause && _isPlay)
+        {
+            _playTime += Time.deltaTime;
+        }
+    }
 
+    public void GameStart()
+    {
+        _isPlay = true;
+        _playTime = 0;
+    }
+
+    public void GameOver()
+    {
+        _isPlay = false;
     }
 
     private void LateUpdate()
@@ -76,7 +100,7 @@ public class GameManager : MonoBehaviour
     {
         if (_enemyDeathLog.Length == 0)
         {
-            _enemyDamageLog.AppendLine("死亡ログ");
+            _enemyDeathLog.AppendLine("死亡ログ");
         }
         _enemyDeathLog.AppendLine(str);
     }
@@ -158,11 +182,13 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         OnPause.Invoke();
+        _isPause = true;
     }
 
     public void Resume()
     {
         OnResume.Invoke();
+        _isPause = false;
     }
 
 }

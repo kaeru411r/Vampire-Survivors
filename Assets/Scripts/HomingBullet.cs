@@ -41,6 +41,11 @@ public class HomingBullet : MonoBehaviour, IObjectPool
 
     public bool IsActive { get => _isActive;}
 
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
+    }
     public void Destroy()
     {
         _rb.Sleep();
@@ -124,7 +129,6 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     public void OnPause()
     {
         _isPause = true;
-        _trTime = _tr.time;
         _tr.time = float.PositiveInfinity;
     }
 

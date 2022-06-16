@@ -61,6 +61,11 @@ public class Enemy : MonoBehaviour, IObjectPool
             ExpsSetUp();
         }
     }
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
+    }
 
     private void Update()
     {

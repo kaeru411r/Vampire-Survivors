@@ -54,7 +54,6 @@ public class Horming : ISkill
         new HomingData(100, 100, 20, 0.5f, 2f, 1f),
         //new HomingData(10, 1000, 20, 0.05f, 2f, 1.5f),
     };
-
     public void Delete()
     {
         _level = 0;

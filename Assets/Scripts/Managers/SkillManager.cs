@@ -56,6 +56,11 @@ public class SkillManager : MonoBehaviour
         GameManager.Instance.OnResume += OnResume;
     }
 
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
+    }
     private void Update()
     {
         if (!_isPause)
@@ -67,7 +72,37 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void SelectStart()
+    {
+        //_canvas.alpha = 1;
 
+        //List<SkillSelectTable> table = new List<SkillSelectTable>();
+        //var list = _allSkills.Where(s => GameManager.Level >= s.Level);
+
+        //int totalProb = _allSkills.Sum(s => s.Probability);
+        //int rand = UnityEngine.Random.Range(0, _allSkills.Count);
+
+        //for (int i = 0; i < _selectList.Count; ++i)
+        //{
+        //    _selectTable[i] = null;
+        //    _selectText[i].text = "";
+        //}
+
+        //for (int i = 0; i < _selectList.Count; ++i)
+        //{
+        //    foreach (var s in list)
+        //    {
+        //        if (rand < s.Probability)
+        //        {
+        //            _selectTable[i] = s;
+        //            _selectText[i].text = s.Name;
+        //            list = list.Where(ls => !(ls.Type == s.Type && ls.TargetId == s.TargetId));
+        //            break;
+        //        }
+        //        rand -= s.Probability;
+        //    }
+        //}
+    }
 
 
     /// <summary>

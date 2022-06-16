@@ -39,6 +39,14 @@ public class Player : MonoBehaviour
         StartCoroutine(AddExp());
         GameManager.Instance.OnPause += OnPause;
         GameManager.Instance.OnResume += OnResume;
+        GameManager.Instance.GameStart();
+    }
+
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
     }
 
     private void Update()
@@ -83,6 +91,7 @@ public class Player : MonoBehaviour
     void Death()
     {
         GameManager.Instance.AddPlayerDeathLog($"プレイヤーが死亡した");
+        GameManager.Instance.GameOver();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

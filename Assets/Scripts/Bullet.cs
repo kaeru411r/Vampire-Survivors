@@ -48,6 +48,11 @@ public class Bullet : MonoBehaviour, IObjectPool
             }
         }
     }
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPause -= OnPause;
+        GameManager.Instance.OnResume -= OnResume;
+    }
 
     /// <summary>セットアップ</summary>
     /// <param name="atk"></param>
