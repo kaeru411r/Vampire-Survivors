@@ -49,8 +49,8 @@ public class Horming : ISkill
 
     HomingData[] _levelTable =
     {
-        new HomingData(1, 30, 20, 3, 1.5f),
-        new HomingData(2, 30, 20, 3, 1.5f),
+        new HomingData(1, 30, 20, 3, 1.5f, 1),
+        new HomingData(2, 30, 20, 3, 1.5f, 1),
     };
 
     public void Delete()
@@ -61,16 +61,16 @@ public class Horming : ISkill
     public void LevelUp()
     {
         StatusSet();
-        if(_time < _coolTime * GameData.Instance.CoolTimeFact)
+        if(_time < _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact)
         {
-            _time = _coolTime;
+            _time = _levelTable[_level].CoolTime;
         }
     }
 
     public void SetUp()
     {
-        StatusSet();
-        _time = _coolTime;
+        _level = 0;
+        _time = _levelTable[_level].CoolTime;
         HomingBullet bullet = Resources.Load<HomingBullet>(_bulletName);
         GameObject root = new GameObject();
         root.name = "Bullets";
@@ -84,15 +84,10 @@ public class Horming : ISkill
 
     void StatusSet()
     {
-        if (_level < _levelTable.Length)
+        if (!_isLevelMax)
         {
-            _amount = _levelTable[_level].Amount;
-            _atk = _levelTable[_level].Atk;
-            _coolTime = _levelTable[_level].CoolTime;
-            _speed = _levelTable[_level].Speed;
-            _correctionStrength = _levelTable[_level].CorrectionStrength;
             _level++;
-            if (_level == _levelTable.Length)
+            if (_level == _levelTable.Length - 1)
             {
                 _isLevelMax = true;
             }
@@ -102,14 +97,14 @@ public class Horming : ISkill
     public void Update()
     {
         _time += Time.deltaTime;
-        float ct = _coolTime * GameData.Instance.CoolTimeFact;
+        float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
         if (_time > ct)
         {
             Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
             Debug.Log("撃った");
             Vector3 pos = Player.Instance.transform.position;
             es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-            for (int i = 0; i < _amount + GameData.Instance.Amount; i++)
+            for (int i = 0; i < _levelTable[_level].Amount + GameData.Instance.Amount; i++)
             {
                 if (es.Length > i)
                 {
@@ -120,7 +115,7 @@ public class Horming : ISkill
                     _inactiveBullets[0].Instantiate(pos);
                     float t = Random.Range(0, Mathf.PI * 2);
                     Vector2 dir = new Vector2(Mathf.Sin(t), Mathf.Cos(t));
-                    _inactiveBullets[0].Fire(es[i].transform, dir, _atk, _speed, _correctionStrength);
+                    _inactiveBullets[0].Fire(es[i], dir, _levelTable[_level]);
                     _activeBullets.Add(_inactiveBullets[0]);
                     _inactiveBullets.RemoveAt(0);
                 }
@@ -139,14 +134,14 @@ public class Horming : ISkill
 
 public struct HomingData
 {
-    public HomingData(int amount, float atk, float speed, float coolTime, float correctionStrength)
+    public HomingData(int amount, float atk, float speed, float coolTime, float correctionStrength, float radius)
     {
         Amount = amount;
         Atk = atk;
         Speed = speed;
         CoolTime = coolTime;
         CorrectionStrength = correctionStrength;
-
+        Radius = radius;
     }
     /// <summary>だす弾の基礎値</summary>
     public int Amount;
@@ -158,4 +153,6 @@ public struct HomingData
     public float CoolTime;
     /// <summary>補正強度</summary>
     public float CorrectionStrength;
+    /// <summary>爆破半径</summary>
+    public float Radius;
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour , IObjectPool
 {
-    bool IsActive;
+    bool isActive;
 
     Rigidbody2D _rb;
     SpriteRenderer _sr;
@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour , IObjectPool
     EnemyData _data;
     float _hp;
 
+    public bool IsActive { get => isActive;}
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour , IObjectPool
 
     private void Update()
     {
-        if (IsActive)
+        if (isActive)
         {
             Move();
         }
@@ -84,7 +85,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.enabled = false;
         _sr.enabled = false;
         _rb.Sleep();
-        IsActive = false;
+        isActive = false;
         //gameObject.SetActive(false);
     }
 
@@ -99,7 +100,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.radius = _data.Radius;
         _sr.sprite = _data.Sprite;
         _hp = _data.HP;
-        IsActive = true;
+        isActive = true;
         //gameObject.SetActive(false);
     }
 
@@ -108,7 +109,7 @@ public class Enemy : MonoBehaviour , IObjectPool
         _cc.enabled = false;
         _sr.enabled = false;
         _rb.Sleep();
-        IsActive = false;
+        isActive = false;
         //gameObject.SetActive(false);
     }
 }
