@@ -16,6 +16,12 @@ public class Player : MonoBehaviour
     /// <summary>リジットボディ</summary>
     Rigidbody2D _rb;
     string _expTag = "Exp";
+    /// <summary>1フレームで入手できるEXPの限界</summary>
+    int _maxExpGet = 10;
+    /// <summary>取得予定の経験値</summary>
+    float _exp = 0;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
     /// <summary>現在のプレイヤーのHP</summary>
     public float Hp { get => _hp; set => _hp = value; }
@@ -30,11 +36,21 @@ public class Player : MonoBehaviour
     {
         _hp = GameData.Instance.MaxHP;
         _rb = GetComponent<Rigidbody2D>();
+        StartCoroutine(AddExp());
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     private void Update()
     {
-        Move();
+        if (!_isPause)
+        {
+            Move();
+        }
+        else
+        {
+            _rb.velocity = Vector2.zero;
+        }
     }
 
     /// <summary>
@@ -76,16 +92,45 @@ public class Player : MonoBehaviour
             Exp e = collision.gameObject.GetComponent<Exp>();
             if (e)
             {
-                int exp = (int)(e.Point * GameData.Instance.ExpFact);
-                for (; exp > 0; exp--)
-                {
-                    if (GameData.Instance.AddExp(1))
-                    {
-                        Debug.Log("レベルアップ");
-                    }
-                }
+                _exp += e.Point * GameData.Instance.ExpFact;
                 e.Destroy();
             }
         }
+    }
+
+    IEnumerator AddExp()
+    {
+        float exp;
+        while (true)
+        {
+            if (_exp >= 1)
+            {
+                if(_exp <= _maxExpGet)
+                {
+                    exp = _exp;
+                    _exp = 0;
+                }
+                else
+                {
+                    exp = _maxExpGet;
+                    _exp -= _maxExpGet;
+                }
+                if (GameData.Instance.AddExp(exp))
+                {
+                    Debug.Log("レベルアップ");
+                }
+            }
+            yield return null;
+        }
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }

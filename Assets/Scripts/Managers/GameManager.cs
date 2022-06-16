@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     /// <summary>現在のプレイ時間(秒)</summary>
     float _playTime;
 
+    public System.Action OnPause;
+    public System.Action OnResume;
+
 
     /// <summary>ゲームの進行段階</summary>
     public int Degree { get { return (int)Mathf.Floor(_playTime * 60); }}
@@ -151,4 +154,15 @@ public class GameManager : MonoBehaviour
         }
         _playerDeathLog.Clear();
     }
+
+    public void Pause()
+    {
+        OnPause.Invoke();
+    }
+
+    public void Resume()
+    {
+        OnResume.Invoke();
+    }
+
 }

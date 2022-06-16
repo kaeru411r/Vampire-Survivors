@@ -38,6 +38,8 @@ public class Gun : ISkill
     float _coolTime;
     /// <summary>発射後経過時間</summary>
     float _time;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
     GunData[] _levelTable =
     {
@@ -69,6 +71,8 @@ public class Gun : ISkill
             b.SetUp();
             _inactiveBullets.Add(b);
         }
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     void StatusSet()
@@ -89,31 +93,34 @@ public class Gun : ISkill
 
     public void Update()
     {
-        _time += Time.deltaTime;
-        float ct = _coolTime * GameData.Instance.CoolTimeFact;
-        if (_time > ct)
+        if (!_isPause)
         {
-            Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
-            Debug.Log("撃った");
-            Vector3 pos = Player.Instance.transform.position;
-            es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-            for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
+            _time += Time.deltaTime;
+            float ct = _coolTime * GameData.Instance.CoolTimeFact;
+            if (_time > ct)
             {
-                if (!(es.Length > i2))
+                Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
+                Debug.Log("撃った");
+                Vector3 pos = Player.Instance.transform.position;
+                es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
+                for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
                 {
-                    i2 = 0;
-                }
-                if (_inactiveBullets.Count == 0)
-                {
-                    BulletDestroy(_activeBullets[0]);
-                }
-                _inactiveBullets[0].Instantiate(pos);
-                _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
-                _activeBullets.Add(_inactiveBullets[0]);
-                _inactiveBullets.RemoveAt(0);
+                    if (!(es.Length > i2))
+                    {
+                        i2 = 0;
+                    }
+                    if (_inactiveBullets.Count == 0)
+                    {
+                        BulletDestroy(_activeBullets[0]);
+                    }
+                    _inactiveBullets[0].Instantiate(pos);
+                    _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
+                    _activeBullets.Add(_inactiveBullets[0]);
+                    _inactiveBullets.RemoveAt(0);
 
+                }
+                _time -= ct;
             }
-            _time -= ct;
         }
     }
 
@@ -123,6 +130,16 @@ public class Gun : ISkill
         _inactiveBullets.Add(bullet);
     }
 
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
+    }
 }
 
 /// <summary>

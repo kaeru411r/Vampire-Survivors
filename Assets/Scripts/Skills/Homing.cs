@@ -45,6 +45,8 @@ public class Horming : ISkill
     float _correctionStrength;
     /// <summary>発射後経過時間</summary>
     float _time;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
 
     HomingData[] _levelTable =
@@ -82,6 +84,8 @@ public class Horming : ISkill
             b.SetUp();
             _inactiveBullets.Add(b);
         }
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     void StatusSet()
@@ -98,35 +102,38 @@ public class Horming : ISkill
 
     public void Update()
     {
-        NullCheck();
-        _time += Time.deltaTime;
-        float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
-        if (_time > ct)
+        if (!_isPause)
         {
-            Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
-            if (es.Length > 0)
+            NullCheck();
+            _time += Time.deltaTime;
+            float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
+            if (_time > ct)
             {
-                Vector3 pos = Player.Instance.transform.position;
-                es = es.OrderBy(e => Random.value).ToArray();
-                for (int i1 = 0, i2 = 0; i1 < _levelTable[_level].Amount + GameData.Instance.Amount; i1++, i2++)
+                Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
+                if (es.Length > 0)
                 {
-                    if (!(es.Length > i2))
+                    Vector3 pos = Player.Instance.transform.position;
+                    es = es.OrderBy(e => Random.value).ToArray();
+                    for (int i1 = 0, i2 = 0; i1 < _levelTable[_level].Amount + GameData.Instance.Amount; i1++, i2++)
                     {
-                        i2 = 0;
+                        if (!(es.Length > i2))
+                        {
+                            i2 = 0;
+                        }
+                        if (_inactiveBullets.Count == 0)
+                        {
+                            BulletDestroy(_activeBullets[0]);
+                        }
+                        _inactiveBullets[0].Instantiate(pos);
+                        float t = Random.Range(0, Mathf.PI * 2);
+                        Vector2 dir = new Vector2(Mathf.Sin(t), Mathf.Cos(t));
+                        _inactiveBullets[0].Fire(es[i2], dir, _levelTable[_level]);
+                        _activeBullets.Add(_inactiveBullets[0]);
+                        _inactiveBullets.RemoveAt(0);
                     }
-                    if (_inactiveBullets.Count == 0)
-                    {
-                        BulletDestroy(_activeBullets[0]);
-                    }
-                    _inactiveBullets[0].Instantiate(pos);
-                    float t = Random.Range(0, Mathf.PI * 2);
-                    Vector2 dir = new Vector2(Mathf.Sin(t), Mathf.Cos(t));
-                    _inactiveBullets[0].Fire(es[i2], dir, _levelTable[_level]);
-                    _activeBullets.Add(_inactiveBullets[0]);
-                    _inactiveBullets.RemoveAt(0);
                 }
+                _time -= ct;
             }
-            _time -= ct;
         }
     }
 
@@ -147,6 +154,16 @@ public class Horming : ISkill
                 i--;
             }
         }
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }
 

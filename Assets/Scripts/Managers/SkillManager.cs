@@ -15,6 +15,8 @@ public class SkillManager : MonoBehaviour
 
     //Dictionary<SkillID, SkillData> _allSkills;
 
+    bool _isPause;
+
 
     /// <summary>現在取得しているスキル</summary>
     public ISkill[] Skills { get { return _skills.Values.ToArray(); } }
@@ -50,13 +52,18 @@ public class SkillManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     private void Update()
     {
-        foreach (var skill in Skills)
+        if (!_isPause)
         {
-            skill.Update();
+            foreach (var skill in Skills)
+            {
+                skill.Update();
+            }
         }
     }
 
@@ -190,5 +197,14 @@ public class SkillManager : MonoBehaviour
         _allSkills.Add(SkillID.AddHP, SkillIDCheck(SkillID.AddHP, AddHp.Instance));
         _allSkills.Add(SkillID.Gun, SkillIDCheck(SkillID.Gun, Gun.Instance));
         _allSkills.Add(SkillID.Homing, SkillIDCheck(SkillID.Homing, Horming.Instance));
+    }
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }

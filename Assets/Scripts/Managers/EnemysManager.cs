@@ -24,6 +24,8 @@ public class EnemysManager : MonoBehaviour
     List<Enemy> _activeEnemyList = new List<Enemy>();
     /// <summary>無効なエネミーのリスト</summary>
     List<Enemy> _inactiveEnemyList = new List<Enemy>();
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
     float _enemySpawnTime;
 
@@ -38,11 +40,16 @@ public class EnemysManager : MonoBehaviour
     private void Start()
     {
         EnemySetUp();
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     private void Update()
     {
-        EnemyGenerate();
+        if (!_isPause)
+        {
+            EnemyGenerate();
+        }
     }
 
     /// <summary>
@@ -167,6 +174,16 @@ public class EnemysManager : MonoBehaviour
                 i--;
             }
         }
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }
 

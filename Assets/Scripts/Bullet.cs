@@ -30,13 +30,15 @@ public class Bullet : MonoBehaviour, IObjectPool
     CircleCollider2D _cc;
     /// <summary>スプライトレンダラー</summary>
     SpriteRenderer _sr;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
 
 
     // Update is called once per frame
     void Update()
     {
-        if( _isActive)
+        if( _isActive && !_isPause)
         {
             transform.position += _dirction * _speed * Time.deltaTime;
             _time -= Time.deltaTime;
@@ -82,6 +84,8 @@ public class Bullet : MonoBehaviour, IObjectPool
         _cc.enabled = false;
         _isActive = false;
         _time = _lifeTime;
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     public void Instantiate(Vector3 position)
@@ -126,5 +130,15 @@ public class Bullet : MonoBehaviour, IObjectPool
                 }
             }
         }
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }

@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour, IObjectPool
 
     EnemyData _data;
     float _hp;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
 
     public bool IsActive { get => isActive; }
 
@@ -62,9 +64,13 @@ public class Enemy : MonoBehaviour, IObjectPool
 
     private void Update()
     {
-        if (isActive)
+        if (isActive && !_isPause)
         {
             Move();
+        }
+        else
+        {
+            _rb.velocity = Vector2.zero;
         }
     }
 
@@ -138,7 +144,8 @@ public class Enemy : MonoBehaviour, IObjectPool
         _sr.enabled = false;
         _rb.Sleep();
         isActive = false;
-        //gameObject.SetActive(false);
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     public void Instantiate(Vector3 position)
@@ -153,7 +160,6 @@ public class Enemy : MonoBehaviour, IObjectPool
         _sr.sprite = _data.Sprite;
         _hp = _data.HP;
         isActive = true;
-        //gameObject.SetActive(false);
     }
 
     public void Destroy()
@@ -162,7 +168,16 @@ public class Enemy : MonoBehaviour, IObjectPool
         _sr.enabled = false;
         _rb.Sleep();
         isActive = false;
-        //gameObject.SetActive(false);
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
     }
 }
 

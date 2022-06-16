@@ -192,8 +192,8 @@ MonoBehaviour:
       Probability: 30
     - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
       Probability: 30
-    MaxAmount: 100
-    Time: 0.1
+    MaxAmount: 1000
+    Time: 0.005
   - EnemySpawnsList:
     - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
       Probability: 30

@@ -35,6 +35,9 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     SpriteRenderer _sr;
     /// <summary>トレイルレンダラー</summary>
     TrailRenderer _tr;
+    /// <summary>今ポーズ中か否か</summary>
+    bool _isPause;
+    float _trTime;
 
     public bool IsActive { get => _isActive;}
 
@@ -68,6 +71,9 @@ public class HomingBullet : MonoBehaviour, IObjectPool
         _tr.enabled = false;
         _isActive = false;
         _time = _lifeTime;
+        _trTime = _tr.time;
+        GameManager.Instance.OnPause += OnPause;
+        GameManager.Instance.OnResume += OnResume;
     }
 
     public void Fire(Enemy transform, Vector2 direction, HomingData data)
@@ -82,7 +88,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     // Update is called once per frame
     void Update()
     {
-        if (_isActive)
+        if (_isActive && !_isPause)
         {
             if (!_target.IsActive)
             {
@@ -113,5 +119,18 @@ public class HomingBullet : MonoBehaviour, IObjectPool
             Where(e => Vector2.Distance(e.transform.position, transform.position) <= _radius).ToArray();
         Array.ForEach(es, e => e.Damage((_atk + GameData.Instance.BaseAtk) * GameData.Instance.AtkFact));
         Destroy();
+    }
+
+    public void OnPause()
+    {
+        _isPause = true;
+        _trTime = _tr.time;
+        _tr.time = float.PositiveInfinity;
+    }
+
+    public void OnResume()
+    {
+        _isPause = false;
+        _tr.time = _trTime;
     }
 }
