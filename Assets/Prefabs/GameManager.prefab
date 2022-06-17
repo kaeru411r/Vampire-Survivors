@@ -70,17 +70,17 @@ MonoBehaviour:
   _maxEnemyAmount: 2000
   _enemySpawnList:
   - EnemySpawnsList:
+    - Data: {fileID: 6530244181836431946, guid: 847dba3bf9f75984d93662cc5aab82a6, type: 3}
+      Probability: 30
     - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
       Probability: 30
+    MaxAmount: 30
+    Time: 0.5
+  - EnemySpawnsList:
     - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
       Probability: 30
     MaxAmount: 1000
     Time: 0.005
-  - EnemySpawnsList:
-    - Data: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
-      Probability: 30
-    MaxAmount: 10
-    Time: 3
   _baseEnemy: {fileID: 853092128461441821, guid: 78f0d7239dec4e3479219c0e1b04d2ad, type: 3}
 --- !u!114 &508595363640443168
 MonoBehaviour:

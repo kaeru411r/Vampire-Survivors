@@ -24,7 +24,7 @@ public class Horming : ISkill
     bool _isLevelMax;
     /// <summary>飛ばす弾のプレハブの名前</summary>
     const string _bulletName = "HomingBullet";
-    const int _maxAmount = 1000;
+    const int _maxAmount = 10000;
     /// <summary>飛ばす弾のオブジェクトプール</summary>
     List<HomingBullet> _inactiveBullets = new List<HomingBullet>();
     /// <summary>飛んでる弾のオブジェクトプール</summary>
@@ -33,16 +33,6 @@ public class Horming : ISkill
 
     /// <summary>現在のスキルのレベル</summary>
     int _level = 0;
-    /// <summary>だす弾の基礎値</summary>
-    int _amount;
-    /// <summary>弾のダメージ</summary>
-    float _atk;
-    /// <summary>弾のスピード</summary>
-    float _speed;
-    /// <summary>クールタイムの基礎値</summary>
-    float _coolTime;
-    /// <summary>補正強度</summary>
-    float _correctionStrength;
     /// <summary>発射後経過時間</summary>
     float _time;
     /// <summary>今ポーズ中か否か</summary>
@@ -51,8 +41,11 @@ public class Horming : ISkill
 
     HomingData[] _levelTable =
     {
-        new HomingData(100, 100, 20, 0.5f, 2f, 1f),
-        //new HomingData(10, 1000, 20, 0.05f, 2f, 1.5f),
+        new HomingData(3, 100, 20, 1f, 20f, 0.7f),
+        new HomingData(4, 100, 20, 1f, 20f, 0.7f),
+        new HomingData(20, 100, 30, 0.5f, 20f, 0.7f),
+        new HomingData(20, 100, 30, 0.1f, 20f, 1f),
+        new HomingData(1, 100, 20, 0.005f, 20, 0.5f),
     };
     public void Delete()
     {
@@ -76,7 +69,7 @@ public class Horming : ISkill
         _time = _levelTable[_level].CoolTime;
         HomingBullet bullet = Resources.Load<HomingBullet>(_bulletName);
         GameObject root = new GameObject();
-        root.name = "Bullets";
+        root.name = "HomingBullets";
         for (int i = 0; i < _maxAmount; i++)
         {
             HomingBullet b = Object.Instantiate(bullet, root.transform);
@@ -103,10 +96,11 @@ public class Horming : ISkill
     {
         if (!_isPause)
         {
-            NullCheck();
+            ActiveCheck();
             _time += Time.deltaTime;
             float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
-            if (_time > ct)
+            for (; _time > ct; _time -= ct)
+                //if (_time > ct)
             {
                 Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
                 if (es.Length > 0)
@@ -131,7 +125,6 @@ public class Horming : ISkill
                         _inactiveBullets.RemoveAt(0);
                     }
                 }
-                _time -= ct;
             }
         }
     }
@@ -142,7 +135,7 @@ public class Horming : ISkill
         _inactiveBullets.Add(bullet);
     }
 
-    void NullCheck()
+    void ActiveCheck()
     {
         for (int i = 0; i < _activeBullets.Count; i++)
         {

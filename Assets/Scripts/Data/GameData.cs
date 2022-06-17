@@ -165,5 +165,5 @@ public class GameData
     public float ExpFact { get => _expFact; set => _expFact = value; }
 
     float _needExp;
-    float _needExpFact = 1.03f;
+    float _needExpFact = 1.3f;
 }

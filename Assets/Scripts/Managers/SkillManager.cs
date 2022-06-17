@@ -111,25 +111,7 @@ public class SkillManager : MonoBehaviour
     /// <param name="id"></param>
     public void AddSkill(int id)
     {
-        var sId = (SkillID)id;
-        if (_skills.ContainsKey(sId))
-        {
-            if (!_skills[sId].IsLevelMax)
-            {
-                _skills[sId].LevelUp();
-            }
-        }
-        else
-        {
-            var s = GetSkill(id);
-            {
-                if (s != null)
-                {
-                    _skills.Add(sId, s);
-                    s.SetUp();
-                }
-            }
-        }
+        AddSkill((SkillID)id);
     }
 
     /// <summary>

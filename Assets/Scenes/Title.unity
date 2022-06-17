@@ -312,6 +312,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 508595363640443175, guid: 2314bf12a00e8bd46a3ea79ae3f1108f, type: 3}
+      propertyPath: _enemySpawnList.Array.data[1].EnemySpawnsList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 508595363640443175, guid: 2314bf12a00e8bd46a3ea79ae3f1108f, type: 3}
+      propertyPath: _enemySpawnList.Array.data[1].EnemySpawnsList.Array.data[0].Data
+      value: 
+      objectReference: {fileID: 6530244181836431946, guid: 847dba3bf9f75984d93662cc5aab82a6, type: 3}
+    - target: {fileID: 508595363640443175, guid: 2314bf12a00e8bd46a3ea79ae3f1108f, type: 3}
+      propertyPath: _enemySpawnList.Array.data[1].EnemySpawnsList.Array.data[1].Data
+      value: 
+      objectReference: {fileID: 6530244181836431946, guid: 5dc7180810dc5f945a7b7e80d6832191, type: 3}
+    - target: {fileID: 508595363640443175, guid: 2314bf12a00e8bd46a3ea79ae3f1108f, type: 3}
+      propertyPath: _enemySpawnList.Array.data[1].EnemySpawnsList.Array.data[1].Probability
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2314bf12a00e8bd46a3ea79ae3f1108f, type: 3}
 --- !u!1 &1361524129

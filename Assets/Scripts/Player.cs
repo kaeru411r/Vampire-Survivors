@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     /// <summary>今ポーズ中か否か</summary>
     bool _isPause;
     [SerializeField] GameObject _canvas;
+    [SerializeField] float _expGetWaitTime;
 
     /// <summary>現在のプレイヤーのHP</summary>
     public float Hp { get => _hp; set => _hp = value; }
@@ -113,7 +114,7 @@ public class Player : MonoBehaviour
         float exp;
         while (true)
         {
-            if (_exp >= 1)
+            if (_exp >= 1 && !_isPause && GameManager.Instance.IsPlay)
             {
                 if(_exp <= _maxExpGet)
                 {
@@ -128,11 +129,11 @@ public class Player : MonoBehaviour
                 if (GameData.Instance.AddExp(exp))
                 {
                     Debug.Log("レベルアップ");
-                    _canvas.SetActive(true);
-                    GameManager.Instance.Pause();
+                    //_canvas.SetActive(true);
+                    //GameManager.Instance.Pause();
                 }
             }
-            yield return null;
+            yield return new WaitForSeconds(_expGetWaitTime);
         }
     }
 

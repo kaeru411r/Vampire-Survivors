@@ -9,20 +9,17 @@ public class SkkillTest : MonoBehaviour
     void Start()
     {
         //SkillManager.Instance.AddSkill(SkillID.Homing);
-        SkillManager.Instance.AddSkill(SkillID.Gun);
+        //SkillManager.Instance.AddSkill(SkillID.Gun);
+        for (int i = 0; i < 10; i++)
+        {
+            SkillManager.Instance.AddSkill(SkillID.Homing);
+            //SkillManager.Instance.AddSkill(SkillID.Gun);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time > 10)
-        {
-            if (!isLevelUp)
-            {
-                isLevelUp = true;
-                //SkillManager.Instance.AddSkill(SkillID.Homing);
-                //SkillManager.Instance.AddSkill(SkillID.Gun);
-            }
-        }
+
     }
 }

@@ -14,12 +14,16 @@ public class EnemysManager : MonoBehaviour
     [SerializeField] Erea _spawnErea;
     [Tooltip("エネミーが湧く半径")]
     [SerializeField] float _spawnRadius;
+    [Tooltip("エネミーが消える半径")]
+    [SerializeField] float _deleteRadius;
     [Tooltip("エネミーの限界量")]
     [SerializeField] int _maxEnemyAmount;
     [Tooltip("エネミーのステータスと出現率を入れる配列を時間分に入れる配列")]
     [SerializeField] List<DegreeEnemySpawn> _enemySpawnList;
     [Tooltip("エネミーの原型")]
     [SerializeField] Enemy _baseEnemy;
+
+    [SerializeField] int _amount = 0;
 
     /// <summary>有効なエネミーのリスト</summary>
     List<Enemy> _activeEnemyList = new List<Enemy>();
@@ -40,6 +44,7 @@ public class EnemysManager : MonoBehaviour
             Instance = this;
             return;
         }
+
         Destroy(gameObject);
     }
 
@@ -66,6 +71,7 @@ public class EnemysManager : MonoBehaviour
         {
             EnemyGenerate();
         }
+        _amount = _activeEnemyList.Count;
     }
 
     /// <summary>
@@ -114,7 +120,8 @@ public class EnemysManager : MonoBehaviour
     {
         for(int i = 0; i < _activeEnemyList.Count; i++)
         {
-            if (!_activeEnemyList[i].IsActive)
+            float dis = Vector2.Distance(_activeEnemyList[i].transform.position, Player.Instance.transform.position);
+            if (!_activeEnemyList[i].IsActive || dis > _deleteRadius)
             {
                 _inactiveEnemyList.Add(_activeEnemyList[i]);
                 _activeEnemyList[i].Destroy();

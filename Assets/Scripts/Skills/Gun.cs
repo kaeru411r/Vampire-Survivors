@@ -17,7 +17,7 @@ public class Gun : ISkill
 
     /// <summary>飛ばす弾のプレハブの名前</summary>
     const string _bulletName = "GunBullet";
-    const int _maxAmount = 100;
+    const int _maxAmount = 1000;
     /// <summary>飛ばす弾のオブジェクトプール</summary>
     List<Bullet> _inactiveBullets = new List<Bullet>();
     /// <summary>飛んでる弾のオブジェクトプール</summary>
@@ -28,14 +28,6 @@ public class Gun : ISkill
 
     /// <summary>現在のスキルのレベル</summary>
     int _level = 0;
-    /// <summary>だす弾の基礎値</summary>
-    int _amount;
-    /// <summary>弾のダメージ</summary>
-    float _atk;
-    /// <summary>弾のスピード</summary>
-    float _speed;
-    /// <summary>クールタイムの基礎値</summary>
-    float _coolTime;
     /// <summary>発射後経過時間</summary>
     float _time;
     /// <summary>今ポーズ中か否か</summary>
@@ -43,8 +35,9 @@ public class Gun : ISkill
 
     GunData[] _levelTable =
     {
-        new GunData(1, 100, 1, 1),
-        new GunData(100, 100, 2, 1),
+        new GunData(1, 100, 1, 1, 1),
+        new GunData(20, 100, 2, 0.01f, 2),
+        new GunData(4, 100, 1, 0.1f, 5),
     };
 
     public void Delete()
@@ -56,10 +49,15 @@ public class Gun : ISkill
     public void LevelUp()
     {
         StatusSet();
+        if (_time < _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact)
+        {
+            _time = _levelTable[_level].CoolTime;
+        }
     }
 
     public void SetUp()
     {
+        _level = -1;
         StatusSet();
         Bullet bullet = Resources.Load<Bullet>(_bulletName);
         GameObject root = new GameObject();
@@ -76,14 +74,10 @@ public class Gun : ISkill
 
     void StatusSet()
     {
-        if (_level < _levelTable.Length)
+        if (!_isLevelMax)
         {
-            _amount = _levelTable[_level].Amount;
-            _atk = _levelTable[_level].Atk;
-            _coolTime = _levelTable[_level].CoolTime;
-            _speed = _levelTable[_level].Speed;
             _level++;
-            if (_level == _levelTable.Length)
+            if (_level == _levelTable.Length - 1)
             {
                 _isLevelMax = true;
             }
@@ -94,17 +88,17 @@ public class Gun : ISkill
     {
         if (!_isPause)
         {
+            ActiveCheck();
             _time += Time.deltaTime;
-            float ct = _coolTime * GameData.Instance.CoolTimeFact;
-            if (_time > ct)
+            float ct = _levelTable[_level].CoolTime * GameData.Instance.CoolTimeFact;
+            for (;  _time > ct; _time -= ct)
             {
                 Enemy[] es = EnemysManager.Instance.ActiveEnemyArray;
                 if (es.Length > 0)
                 {
-                    Debug.Log("撃った");
                     Vector3 pos = Player.Instance.transform.position;
                     es = es.OrderBy(e => Vector2.Distance(e.transform.position, Player.Instance.transform.position)).ToArray();
-                    for (int i1 = 0, i2 = 0; i1 < _amount + GameData.Instance.Amount; i1++, i2++)
+                    for (int i1 = 0, i2 = 0; i1 < _levelTable[_level].Amount + GameData.Instance.Amount; i1++, i2++)
                     {
                         if (!(es.Length > i2))
                         {
@@ -115,12 +109,11 @@ public class Gun : ISkill
                             BulletDestroy(_activeBullets[0]);
                         }
                         _inactiveBullets[0].Instantiate(pos);
-                        _inactiveBullets[0].Fire((es[i2].transform.position - pos).normalized, _atk, _speed);
+                        _inactiveBullets[0].Fire((es[i2].transform.position - pos), _levelTable[_level]);
                         _activeBullets.Add(_inactiveBullets[0]);
                         _inactiveBullets.RemoveAt(0);
 
                     }
-                    _time -= ct;
                 }
             }
         }
@@ -130,6 +123,18 @@ public class Gun : ISkill
     {
         _activeBullets.Remove(bullet);
         _inactiveBullets.Add(bullet);
+    }
+    void ActiveCheck()
+    {
+        for (int i = 0; i < _activeBullets.Count; i++)
+        {
+            if (!_activeBullets[i].IsActive)
+            {
+                _inactiveBullets.Add(_activeBullets[i]);
+                _activeBullets.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
 
@@ -149,12 +154,13 @@ public class Gun : ISkill
 /// </summary>
 public struct GunData
 {
-    public GunData(int amount, float atk, float speed, float coolTime)
+    public GunData(int amount, float atk, float speed, float coolTime, int frequencyPiercing)
     {
         Amount = amount;
         Atk = atk;
         Speed = speed;
         CoolTime = coolTime;
+        FrequencyPiercing = frequencyPiercing;
     }
     /// <summary>だす弾の基礎値</summary>
     public int Amount;
@@ -164,4 +170,5 @@ public struct GunData
     public float Speed;
     /// <summary>クールタイムの基礎値</summary>
     public float CoolTime;
+    public int FrequencyPiercing;
 }

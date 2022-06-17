@@ -7,7 +7,7 @@ using System;
 /// <summary>
 /// 自動追尾弾の制御コンポーネント
 /// </summary>
-[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D), typeof(TrailRenderer))]
+[RequireComponent(typeof(SpriteRenderer), typeof(TrailRenderer))]
 public class HomingBullet : MonoBehaviour, IObjectPool
 {
 
@@ -29,8 +29,6 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     float _radius;
     /// <summary>現在の飛翔方向</summary>
     Vector3 _dirction;
-    /// <summary>リジットボディ</summary>
-    Rigidbody2D _rb;
     /// <summary>スプライトレンダラー</summary>
     SpriteRenderer _sr;
     /// <summary>トレイルレンダラー</summary>
@@ -48,7 +46,6 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     }
     public void Destroy()
     {
-        _rb.Sleep();
         _sr.enabled = false;
         _tr.enabled = false;
         _isActive = false;
@@ -58,7 +55,6 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     {
         _isActive = true;
         transform.position = position;
-        _rb.WakeUp();
         _sr.enabled = true;
         _tr.enabled = true;
         _time = _lifeTime;
@@ -66,12 +62,8 @@ public class HomingBullet : MonoBehaviour, IObjectPool
 
     public void SetUp()
     {
-        _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
         _tr = GetComponent<TrailRenderer>();
-        _rb.gravityScale = 0;
-        _rb.freezeRotation = true;
-        _rb.Sleep();
         _sr.enabled = false;
         _tr.enabled = false;
         _isActive = false;
@@ -100,7 +92,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
                 Burst();
                 return;
             }
-            Vector3 cor = (_target.transform.position - transform.position) * _correctionStrength * Time.deltaTime;
+            Vector3 cor = (_target.transform.position - transform.position).normalized * _correctionStrength * Time.deltaTime;
             _dirction = (_dirction + cor).normalized;
             transform.position += _dirction * _speed * Time.deltaTime;
             if(Vector2.Distance(_target.transform.position, transform.position) <= _radius)
