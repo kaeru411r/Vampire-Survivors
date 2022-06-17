@@ -56,3 +56,5 @@ MonoBehaviour:
     Probability: 50
   - Exp: 3
     Probability: 50
+  Type: 0
+  Direction: {x: 1, y: -1}

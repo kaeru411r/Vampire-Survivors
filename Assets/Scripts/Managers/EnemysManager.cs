@@ -34,6 +34,7 @@ public class EnemysManager : MonoBehaviour
 
     float _enemySpawnTime;
 
+
     /// <summary>有効なエネミーのリスト</summary>
     public Enemy[] ActiveEnemyArray { get => _activeEnemyList.ToArray();}
 
@@ -101,7 +102,12 @@ public class EnemysManager : MonoBehaviour
         {
             float t = Random.Range(0, Mathf.PI * 2);
             Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
-            EnemyInstantiate(pos);
+            int index = Random.Range(0, _enemySpawnList[degree].EnemySpawnsList.Count);
+            int amount = _enemySpawnList[degree].EnemySpawnsList[index].Data.Amount;
+            for (int i = 0; i <= amount; i++)
+            {
+                EnemyInstantiate(pos);
+            }
             _enemySpawnTime -= _enemySpawnList[degree].Time;
         }
 

@@ -30,6 +30,11 @@ public class EnemyData : MonoBehaviour
         }
     }
     public ExpTable[] ExpTable;
+    public int Amount;
+    public EnemyType Type;
+    public bool IsStraight => Type == EnemyType.Straight;
+    [HideInInspector]
+    public Vector2 Direction = Vector2.zero;
 }
 
 [System.Serializable]
@@ -37,4 +42,15 @@ public class ExpTable
 {
     public float Exp;
     public int Probability;
+}
+
+/// <summary>
+/// エネミーの行動パターン
+/// </summary>
+public enum EnemyType
+{
+    /// <summary>プレイヤーにまっすぐ向かっていく</summary>
+    Charge,
+    /// <summary>直進する</summary>
+    Straight,
 }

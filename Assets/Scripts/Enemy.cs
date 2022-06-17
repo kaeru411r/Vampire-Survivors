@@ -71,7 +71,18 @@ public class Enemy : MonoBehaviour, IObjectPool
     {
         if (isActive && !_isPause && GameManager.Instance.IsPlay)
         {
-            Move();
+            switch (_data.Type)
+            {
+                case EnemyType.Charge:
+                    ChargeMove();
+                    break;
+                case EnemyType.Straight:
+                    StraightMove();
+                    break;
+                default:
+                    break;
+
+            }
         }
         else
         {
@@ -82,10 +93,15 @@ public class Enemy : MonoBehaviour, IObjectPool
     /// <summary>
     /// 敵が動く
     /// </summary>
-    private void Move()
+    void ChargeMove()
     {
         Vector2 dir = (Player.Instance.transform.position - transform.position).normalized;
         _rb.velocity = dir * _data.Speed;
+    }
+
+    void StraightMove()
+    {
+        _rb.velocity = _data.Direction.normalized * _data.Speed;
     }
 
     /// <summary>
