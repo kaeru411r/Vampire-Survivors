@@ -63,7 +63,7 @@ public class SkillManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!_isPause)
+        if (!_isPause && GameManager.Instance.IsPlay)
         {
             foreach (var skill in Skills)
             {

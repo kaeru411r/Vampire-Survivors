@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     /// <summary>ゲームの終了までの時間(分)</summary>
     public int GameTime { get => _gameTime; set => _gameTime = value; }
     public float PlayTime { get => _playTime;}
+    public bool IsPlay { get => _isPlay; set => _isPlay = value; }
 
     private void Awake()
     {
@@ -62,13 +63,16 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
+        //yield return null;
         _isPlay = true;
         _playTime = 0;
+        EnemysManager.Instance.SetUp();
     }
 
     public void GameOver()
     {
         _isPlay = false;
+        SceneChengeManager.Instance.ResultScene();
     }
 
     private void LateUpdate()

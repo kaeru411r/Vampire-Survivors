@@ -35,15 +35,25 @@ public class EnemysManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            return;
+        }
+        Destroy(gameObject);
     }
 
     private void Start()
     {
-        EnemySetUp();
         GameManager.Instance.OnPause += OnPause;
         GameManager.Instance.OnResume += OnResume;
     }
+
+    public void SetUp()
+    {
+        EnemySetUp();
+    }
+
     private void OnDisable()
     {
         GameManager.Instance.OnPause -= OnPause;
@@ -52,7 +62,7 @@ public class EnemysManager : MonoBehaviour
 
     private void Update()
     {
-        if (!_isPause)
+        if (!_isPause && GameManager.Instance.IsPlay)
         {
             EnemyGenerate();
         }
@@ -78,6 +88,7 @@ public class EnemysManager : MonoBehaviour
     /// </summary>
     void EnemyGenerate()
     {
+        //EnemusCheck();
         ActiveCheck();
         int degree = Mathf.Min(_enemySpawnList.Count - 1, GameManager.Instance.Degree);
         while (SpawnConditionCheck())
@@ -91,6 +102,14 @@ public class EnemysManager : MonoBehaviour
         _enemySpawnTime += Time.deltaTime;
     }
 
+    void EnemusCheck()
+    {
+        if(_activeEnemyList.Count + _inactiveEnemyList.Count == 0)
+        {
+            EnemySetUp();
+        }
+    }
+
     void ActiveCheck()
     {
         for(int i = 0; i < _activeEnemyList.Count; i++)
@@ -98,6 +117,7 @@ public class EnemysManager : MonoBehaviour
             if (!_activeEnemyList[i].IsActive)
             {
                 _inactiveEnemyList.Add(_activeEnemyList[i]);
+                _activeEnemyList[i].Destroy();
                 _activeEnemyList.Remove(_activeEnemyList[i]);
                 i--;
             }

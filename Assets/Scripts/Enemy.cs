@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour, IObjectPool
             if (!_activeExpList[i].IsActive)
             {
                 _inactiveExpList.Add(_activeExpList[i]);
-                _activeExpList.RemoveAt(i);
+                _activeExpList.Remove(_activeExpList[i]);
                 i--;
             }
         }
@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour, IObjectPool
 
     private void Update()
     {
-        if (isActive && !_isPause)
+        if (isActive && !_isPause && GameManager.Instance.IsPlay)
         {
             Move();
         }

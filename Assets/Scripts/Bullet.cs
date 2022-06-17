@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour, IObjectPool
     // Update is called once per frame
     void Update()
     {
-        if( _isActive && !_isPause)
+        if( _isActive && !_isPause && GameManager.Instance.IsPlay)
         {
             transform.position += _dirction * _speed * Time.deltaTime;
             _time -= Time.deltaTime;

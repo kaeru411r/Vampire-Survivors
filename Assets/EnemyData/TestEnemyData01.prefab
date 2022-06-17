@@ -54,3 +54,5 @@ MonoBehaviour:
     Probability: 50
   - Exp: 1
     Probability: 50
+  - Exp: 1000
+    Probability: 50

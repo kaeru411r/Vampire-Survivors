@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     float _exp = 0;
     /// <summary>今ポーズ中か否か</summary>
     bool _isPause;
+    [SerializeField] GameObject _canvas;
 
     /// <summary>現在のプレイヤーのHP</summary>
     public float Hp { get => _hp; set => _hp = value; }
@@ -127,10 +128,17 @@ public class Player : MonoBehaviour
                 if (GameData.Instance.AddExp(exp))
                 {
                     Debug.Log("レベルアップ");
+                    _canvas.SetActive(true);
+                    GameManager.Instance.Pause();
                 }
             }
             yield return null;
         }
+    }
+
+    public void S()
+    {
+        _canvas.SetActive(false);
     }
 
     public void OnPause()

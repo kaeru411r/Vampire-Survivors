@@ -43,7 +43,7 @@ public class Gun : ISkill
 
     GunData[] _levelTable =
     {
-        new GunData(1, 30, 1, 1),
+        new GunData(1, 100, 1, 1),
         new GunData(100, 100, 2, 1),
     };
 
