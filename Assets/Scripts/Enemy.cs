@@ -171,16 +171,20 @@ public class Enemy : MonoBehaviour, IObjectPool
 
     public void Instantiate(Vector3 position)
     {
-        _data = EnemysManager.Instance.GetData(GameManager.Instance.Degree);
         _cc.enabled = true;
         _sr.enabled = true;
         _rb.WakeUp();
 
         transform.position = position;
+        isActive = true;
+    }
+
+    public void SetData(EnemyData data)
+    {
+        _data = data;
         _cc.radius = _data.Radius;
         _sr.sprite = _data.Sprite;
         _hp = _data.HP;
-        isActive = true;
     }
 
     public void Destroy()

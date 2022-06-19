@@ -101,12 +101,14 @@ public class EnemysManager : MonoBehaviour
         while (SpawnConditionCheck())
         {
             float t = Random.Range(0, Mathf.PI * 2);
-            Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
             int index = Random.Range(0, _enemySpawnList[degree].EnemySpawnsList.Count);
-            int amount = _enemySpawnList[degree].EnemySpawnsList[index].Data.Amount;
-            for (int i = 0; i <= amount; i++)
+            int amount = _enemySpawnList[degree].EnemySpawnsList[index].Amount;
+            for (int i = 0; i < amount; i++)
             {
-                EnemyInstantiate(pos);
+                Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
+                Enemy e = EnemyInstantiate(pos);
+                e.SetData(_enemySpawnList[degree].EnemySpawnsList[index].Data);
+                t += Random.Range(-Mathf.PI / 180, Mathf.PI / 180);
             }
             _enemySpawnTime -= _enemySpawnList[degree].Time;
         }
@@ -141,11 +143,13 @@ public class EnemysManager : MonoBehaviour
     /// エネミーを湧かす
     /// </summary>
     /// <param name="position"></param>
-    void EnemyInstantiate(Vector3 position)
+    Enemy EnemyInstantiate(Vector3 position)
     {
-        _inactiveEnemyList[0].Instantiate(position);
-        _activeEnemyList.Add(_inactiveEnemyList[0]);
-        _inactiveEnemyList.RemoveAt(0);
+        Enemy e = _inactiveEnemyList[0];
+        e.Instantiate(position);
+        _activeEnemyList.Add(e);
+        _inactiveEnemyList.Remove(e);
+        return e;
     }
 
     public void EnemyDestroy(Enemy enemy)
@@ -229,6 +233,8 @@ struct EnemySpawn
     public EnemyData Data;
     [Tooltip("湧く比率")]
     public int Probability;
+    [Tooltip("湧く数")]
+    public int Amount;
 }
 
 

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// EnemyDataのエディター拡張
+/// </summary>
 [CustomEditor(typeof(EnemyData))]
-public class FieldTestEditor : Editor
+public class EnemyDataEditor : Editor
 {
     public override void OnInspectorGUI()
     {

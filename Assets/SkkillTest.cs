@@ -10,7 +10,7 @@ public class SkkillTest : MonoBehaviour
     {
         //SkillManager.Instance.AddSkill(SkillID.Homing);
         //SkillManager.Instance.AddSkill(SkillID.Gun);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 1; i++)
         {
             SkillManager.Instance.AddSkill(SkillID.Homing);
             //SkillManager.Instance.AddSkill(SkillID.Gun);

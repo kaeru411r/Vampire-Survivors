@@ -30,7 +30,6 @@ public class EnemyData : MonoBehaviour
         }
     }
     public ExpTable[] ExpTable;
-    public int Amount;
     public EnemyType Type;
     public bool IsStraight => Type == EnemyType.Straight;
     [HideInInspector]
