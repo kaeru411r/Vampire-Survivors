@@ -89,9 +89,10 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     {
         if (_isActive && !_isPause)
         {
-            if (_target.IsActive)
+            if (_target && _target.IsActive)
             {
                 _targetPosition = _target.transform.position;
+                _target = null;
             }
             Vector3 cor = (_targetPosition - transform.position).normalized * _correctionStrength * Time.deltaTime;
             _dirction = (_dirction + cor).normalized;
