@@ -29,6 +29,8 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     float _radius;
     /// <summary>現在の飛翔方向</summary>
     Vector3 _dirction;
+    /// <summary>ターゲットの座標</summary>
+    Vector3 _targetPosition;
     /// <summary>スプライトレンダラー</summary>
     SpriteRenderer _sr;
     /// <summary>トレイルレンダラー</summary>
@@ -37,7 +39,7 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     bool _isPause;
     float _trTime;
 
-    public bool IsActive { get => _isActive;}
+    public bool IsActive { get => _isActive; }
 
     private void OnDisable()
     {
@@ -87,15 +89,14 @@ public class HomingBullet : MonoBehaviour, IObjectPool
     {
         if (_isActive && !_isPause)
         {
-            if (!_target.IsActive)
+            if (_target.IsActive)
             {
-                Burst();
-                return;
+                _targetPosition = _target.transform.position;
             }
-            Vector3 cor = (_target.transform.position - transform.position).normalized * _correctionStrength * Time.deltaTime;
+            Vector3 cor = (_targetPosition - transform.position).normalized * _correctionStrength * Time.deltaTime;
             _dirction = (_dirction + cor).normalized;
             transform.position += _dirction * _speed * Time.deltaTime;
-            if(Vector2.Distance(_target.transform.position, transform.position) <= _radius)
+            if (Vector2.Distance(_targetPosition, transform.position) <= _radius)
             {
                 Burst();
             }
@@ -105,6 +106,11 @@ public class HomingBullet : MonoBehaviour, IObjectPool
                 Burst();
             }
         }
+    }
+
+    void LockTargetPosition()
+    {
+
     }
 
     /// <summary>
