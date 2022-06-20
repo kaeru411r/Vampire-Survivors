@@ -23,11 +23,13 @@ public class Enemy : MonoBehaviour, IObjectPool
     CircleCollider2D _cc;
 
     EnemyData _data;
+    Vector2 _direction;
     float _hp;
     /// <summary>今ポーズ中か否か</summary>
     bool _isPause;
 
     public bool IsActive { get => isActive; }
+    public Vector2 Direction { get => _direction; set => _direction = value; }
 
     static void ExpActiveCheck()
     {
@@ -101,7 +103,7 @@ public class Enemy : MonoBehaviour, IObjectPool
 
     void StraightMove()
     {
-        _rb.velocity = _data.Direction.normalized * _data.Speed;
+        _rb.velocity = _direction.normalized * _data.Speed;
     }
 
     /// <summary>

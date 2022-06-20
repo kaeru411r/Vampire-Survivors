@@ -12,6 +12,8 @@ public class EnemyData : MonoBehaviour
     public float Atk;
     public float Radius;
     public Sprite Sprite;
+    public EnemyType Type;
+    public ExpTable[] ExpTable;
     public float Exp
     {
         get
@@ -29,11 +31,8 @@ public class EnemyData : MonoBehaviour
             return 0;
         }
     }
-    public ExpTable[] ExpTable;
-    public EnemyType Type;
-    public bool IsStraight => Type == EnemyType.Straight;
     [HideInInspector]
-    public Vector2 Direction = Vector2.zero;
+    public Vector2 Direction;
 }
 
 [System.Serializable]

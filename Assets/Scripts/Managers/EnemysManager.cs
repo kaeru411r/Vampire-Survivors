@@ -108,6 +108,10 @@ public class EnemysManager : MonoBehaviour
                 Vector3 pos = new Vector3(Mathf.Sin(t), Mathf.Cos(t)) * _spawnRadius + Player.Instance.transform.position;
                 Enemy e = EnemyInstantiate(pos);
                 e.SetData(_enemySpawnList[degree].EnemySpawnsList[index].Data);
+                if(_enemySpawnList[degree].EnemySpawnsList[index].Data.Type == EnemyType.Straight)
+                {
+                    e.Direction = new Vector2(Mathf.Sin(t + Mathf.PI), Mathf.Cos(t + Mathf.PI));
+                }
                 t += Random.Range(-Mathf.PI / 180, Mathf.PI / 180);
             }
             _enemySpawnTime -= _enemySpawnList[degree].Time;
