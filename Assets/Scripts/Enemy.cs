@@ -98,12 +98,12 @@ public class Enemy : MonoBehaviour, IObjectPool
     void ChargeMove()
     {
         Vector2 dir = (Player.Instance.transform.position - transform.position).normalized;
-        _rb.velocity = dir * _data.Speed;
+        _rb.velocity = dir * _data.Speed * GameData.Instance.DifficultyFact;
     }
 
     void StraightMove()
     {
-        _rb.velocity = _direction.normalized * _data.Speed;
+        _rb.velocity = _direction.normalized * _data.Speed * GameData.Instance.DifficultyFact;
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour, IObjectPool
     /// </summary>
     void Attack()
     {
-        Player.Instance.Damage(_data.Atk);
+        Player.Instance.Damage(_data.Atk * GameData.Instance.DifficultyFact);
     }
 
     public void SetUp()
@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviour, IObjectPool
         _data = data;
         _cc.radius = _data.Radius;
         _sr.sprite = _data.Sprite;
-        _hp = _data.HP;
+        _hp = _data.HP * GameData.Instance.DifficultyFact;
     }
 
     public void Destroy()

@@ -15,6 +15,9 @@ public class CharacterData : MonoBehaviour
     [SerializeField] float _moveSpeed = 1;
     [SerializeField] float _collectionArea = 1;
     [SerializeField] float _luck = 1;
+    [SerializeField] int _amount = 0;
+    [SerializeField] float _coolTime = 1;
+    [SerializeField] float _difficulty = 1;
 
 
     public void Select()
@@ -29,5 +32,8 @@ public class CharacterData : MonoBehaviour
         GameData.Instance.MoveSpeedFact = _moveSpeed;
         GameData.Instance.BaseCollectionArea = _collectionArea;
         GameData.Instance.BaseLuck = _luck;
+        GameData.Instance.Amount = _amount;
+        GameData.Instance.CoolTimeFact = _coolTime;
+        GameData.Instance.DifficultyFact = _difficulty;
     }
 }
