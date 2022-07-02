@@ -94,18 +94,22 @@ public class HomingBullet : MonoBehaviour, IObjectPool
                 _targetPosition = _target.transform.position;
                 _target = null;
             }
-            Vector3 cor = (_targetPosition - transform.position).normalized * _correctionStrength * Time.deltaTime;
-            _dirction = (_dirction + cor).normalized;
-            transform.position += _dirction * _speed * Time.deltaTime;
-            if (Vector2.Distance(_targetPosition, transform.position) <= _radius)
-            {
-                Burst();
-            }
             _time -= Time.deltaTime;
             if (_time <= 0)
             {
                 Burst();
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 cor = (_targetPosition - transform.position).normalized * _correctionStrength * Time.fixedDeltaTime;
+        _dirction = (_dirction + cor).normalized;
+        transform.position += _dirction * _speed * Time.fixedDeltaTime;
+        if (Vector2.Distance(_targetPosition, transform.position) <= _radius)
+        {
+            Burst();
         }
     }
 
