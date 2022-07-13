@@ -110,6 +110,7 @@ public class EnemysManager : MonoBehaviour
                 if(num < 0)
                 {
                     index = i;
+                    break;
                 }
             }
             int amount = _enemySpawnList[degree].EnemySpawnsList[index].Amount;
