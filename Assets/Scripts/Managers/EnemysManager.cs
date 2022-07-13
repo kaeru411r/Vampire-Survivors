@@ -101,7 +101,17 @@ public class EnemysManager : MonoBehaviour
         while (SpawnConditionCheck())
         {
             float t = Random.Range(0, Mathf.PI * 2);
-            int index = Random.Range(0, _enemySpawnList[degree].EnemySpawnsList.Count);
+            float max = _enemySpawnList[degree].EnemySpawnsList.Sum(l => l.Probability);
+            float num = Random.Range(0, max);
+            int index = 0;
+            for(int i = 0; i < _enemySpawnList[degree].EnemySpawnsList.Count; i++)
+            {
+                num -= _enemySpawnList[degree].EnemySpawnsList[i].Probability;
+                if(num < 0)
+                {
+                    index = i;
+                }
+            }
             int amount = _enemySpawnList[degree].EnemySpawnsList[index].Amount;
             for (int i = 0; i < amount; i++)
             {
